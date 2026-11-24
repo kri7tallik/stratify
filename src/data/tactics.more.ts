@@ -1,0 +1,106 @@
+import type { Tactic } from "@/types/content";
+
+const D = "2026-11-24";
+const ROLE_NOTE =
+  "Steps and utility come from the cited source. The split into five numbered roles was arranged by STRATIFY so it can be studied player-by-player.";
+
+export const TACTICS_MORE: Tactic[] = [
+  {
+    id: "anu-a-execute",
+    title: "Simple A execute",
+    map: "anubis",
+    side: "T",
+    category: "execute",
+    summary: "Win Mid/Canal, smoke Heaven, isolate CT/Tunnel, burn Fountain, flash A Main and hit Connector at the same time.",
+    roles: [
+      { slot: 1, role: "Mid / Canal", task: "Take Mid/Canal control first." },
+      { slot: 2, role: "Smoker — Heaven", task: "Heaven smoke from the canal outside A Main." },
+      { slot: 3, role: "Smoker — CT/Tunnel", task: "Isolate CT/Tunnel." },
+      { slot: 4, role: "Molotov + flash", task: "Molotov Fountain, flash A Main." },
+      { slot: 5, role: "Connector", task: "Activate Connector at the same time as the A Main entry." },
+    ],
+    steps: [
+      { label: "Mid / Canal", detail: "Control Mid/Canal.", focus: ["mid"] },
+      { label: "Heaven", detail: "Smoke Heaven.", focus: ["heaven"] },
+      { label: "Isolate", detail: "Isolate CT/Tunnel.", focus: ["ct"] },
+      { label: "Fountain & flash", detail: "Molotov Fountain, flash A Main.", focus: ["a", "amain"] },
+      { label: "Hit together", detail: "Connector goes at the same time as A Main.", focus: ["connector", "amain", "a"] },
+    ],
+    grenadeIds: ["anu-heaven", "anu-plateau", "anu-connector"],
+    utilityNotes: ["Heaven smoke + molotov", "Flash A", "Smoke CT/Tunnel"],
+    difficulty: "medium",
+    meta: { sourceId: "expcarry-anubis", status: "verified", checkedAt: D, note: ROLE_NOTE },
+  },
+  {
+    id: "nuk-outside-take",
+    title: "Outside take (smoke wall)",
+    map: "nuke",
+    side: "T",
+    category: "default",
+    summary: "Outside is won by completing the smoke wall, not by duels: wall + Red container smoke first, flash over, cross in pairs, burn the Garage-side close spot, then split Secret and Ramp.",
+    roles: [
+      { slot: 1, role: "Wall smoke 1", task: "Outside wall smoke from the truck." },
+      { slot: 2, role: "Wall smoke 2", task: "Second wall smoke / Red container smoke." },
+      { slot: 3, role: "Flasher", task: "Flash over the wall." },
+      { slot: 4, role: "Molotov", task: "Molotov the Garage-side close position." },
+      { slot: 5, role: "Ramp", task: "Ramp pressure for the Secret/Ramp split." },
+    ],
+    steps: [
+      { label: "Wall first", detail: "Outside + Red smokes cut Heaven and Garage views. Missing one smoke turns the cross into a shooting gallery.", focus: ["outside", "tred", "garage"] },
+      { label: "Flash & cross", detail: "Flash over the wall, cross in pairs behind the smokes.", focus: ["outside"] },
+      { label: "Clear & split", detail: "Molotov the Garage-side close position, then split Secret and Ramp.", focus: ["secret", "ramp", "b"] },
+    ],
+    grenadeIds: ["nuk-wall", "nuk-wall-2", "nuk-tred", "nuk-garage"],
+    utilityNotes: ["Order: Outside smoke → Red container smoke → Outside flash → Outside molotov"],
+    difficulty: "medium",
+    meta: { sourceId: "csdb-nuke", status: "verified", checkedAt: D, note: ROLE_NOTE },
+  },
+  {
+    id: "nuk-upper-a",
+    title: "Upper A hit (3-stack)",
+    map: "nuke",
+    side: "T",
+    category: "execute",
+    summary: "Yard smoke covers the walk to Main, Trophy smoke blocks the Lobby cross; flash Rafters over Hut, molotov Trophy, enter Hut and Main together.",
+    roles: [
+      { slot: 1, role: "Yard smoke", task: "Covers the walk to Main." },
+      { slot: 2, role: "Trophy smoke", task: "Blocks the Lobby cross angle." },
+      { slot: 3, role: "Flash + molotov", task: "Flash Rafters over Hut, molotov Trophy." },
+      { slot: 4, role: "Entry Hut", task: "Enter through Hut." },
+      { slot: 5, role: "Entry Main", task: "Enter through Main at the same time." },
+    ],
+    steps: [
+      { label: "Smokes", detail: "Yard smoke and Trophy smoke.", focus: ["outside", "lobby"] },
+      { label: "Flash & molotov", detail: "Flash Rafters over Hut, molotov Trophy.", focus: ["hut", "a"] },
+      { label: "Enter together", detail: "Hut and Main entry at the same time.", focus: ["hut", "a"] },
+    ],
+    grenadeIds: [],
+    utilityNotes: ["Lineups for Yard/Trophy are not in Grenade Lab yet — add them with a source."],
+    difficulty: "medium",
+    meta: { sourceId: "csdb-nuke", status: "verified", checkedAt: D, note: ROLE_NOTE },
+  },
+  {
+    id: "cac-a-execute",
+    title: "Simple A execute",
+    map: "cache",
+    side: "T",
+    category: "execute",
+    summary: "Highway smoke, Forklift molotov, A Main flash — a basic Premier-ready A hit.",
+    roles: [
+      { slot: 1, role: "Smoker — Highway", task: "Highway smoke." },
+      { slot: 2, role: "Molotov — Forklift", task: "Forklift molotov." },
+      { slot: 3, role: "Flasher", task: "Flash A Main; pop it when the entry is ready to swing." },
+      { slot: 4, role: "Entry", task: "First through A Main." },
+      { slot: 5, role: "Mid", task: "Hold Mid / Connector pressure." },
+    ],
+    steps: [
+      { label: "Highway", detail: "Smoke Highway.", focus: ["highway"] },
+      { label: "Forklift", detail: "Molotov Forklift.", focus: ["forklift"] },
+      { label: "Flash & swing", detail: "Flash A Main as the first players are ready to swing.", focus: ["amain", "a"] },
+    ],
+    grenadeIds: ["cac-highway", "cac-forklift"],
+    utilityNotes: [],
+    difficulty: "easy",
+    meta: { sourceId: "expcarry-cache", status: "partial", checkedAt: D, note: "Source shows the first three steps; Cache geometry changed during 2026. " + ROLE_NOTE },
+  },
+];
