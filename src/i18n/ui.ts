@@ -82,6 +82,8 @@ export const UI = {
   "throw.right-click": e("ПКМ", "ПКМ", "Right click"),
   "throw.jump-throw": e("Jump throw", "Jump throw", "Jump throw"),
   "throw.run-jump-throw": e("З розбігу + jump throw", "С разбега + jump throw", "Run + jump throw"),
+  "throw.run-throw": e("На бігу, ЛКМ", "На бегу, ЛКМ", "Running left click"),
+  "throw.both-click": e("ЛКМ + ПКМ", "ЛКМ + ПКМ", "Left + right click"),
   "throw.walk-throw": e("На ходу", "На ходу", "Walk throw"),
   "throw.crouch-throw": e("Присівши", "Присев", "Crouch throw"),
   "throw.unknown": e("Див. джерело", "См. источник", "See source"),
@@ -97,6 +99,10 @@ export const UI = {
   "tag.default": e("дефолт", "дефолт", "default"),
   "tag.delay": e("затримка", "задержка", "delay"),
   "tag.official": e("офіційний", "официальный", "official"),
+  "tag.retake": e("ретейк", "ретейк", "retake"),
+  "tag.post-plant": e("після плента", "после плента", "post-plant"),
+  "tag.smoke clear": e("пробити смок", "пробить смок", "smoke clear"),
+  "tag.anti-rush": e("проти рашу", "против раша", "anti-rush"),
 
   // ── tactic categories
   "tcat.execute": e("Виходи", "Выходы", "Executes"),

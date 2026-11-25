@@ -1,3 +1,4 @@
+import { FRESH_UK } from "./fresh.uk";
 import type { OverlayDict } from "./index";
 
 const ROLE_NOTE = "Кроки й гранати взято з джерела. Розподіл на п'ять ролей зробив STRATIFY, щоб тактику можна було вчити по гравцях.";
@@ -5,6 +6,7 @@ const NO_SHOT = "У джерелі немає скриншота — виста�
 const MAP_NOTE = "Радар: офіційний overview з файлів CS2 (© Valve). Маркери позицій розставлено вручну, вони приблизні.";
 
 export const UK: OverlayDict = {
+  ...FRESH_UK,
   // ───── Mirage
   "grenade:mir-ct-palace": { title: "Смок на CT", position: "Вертикальна лінія на стіні біля кута до Ramp", aim: "Трохи нижче кута вежі", purpose: "Закриває огляд із CT Spawn / Ticket для виходу на A.", instructions: ["Стань на вертикальну лінію біля кута до Ramp.", "Цілься трохи нижче кута вежі.", "Jump throw."] },
   "grenade:mir-stairs-tspawn": { title: "Смок на Stairs", position: "Кут першої сходинки одразу за T Spawn", aim: "Щілина в будівельних риштованнях", purpose: "Закриває Stairs на A. Без смоку на Jungle не кидай.", instructions: ["Стань на кут першої сходинки за T Spawn.", "Подивись угору на щілину в риштованнях.", "Кидок ЛКМ. Кидай у парі з Jungle."] },
@@ -23,7 +25,6 @@ export const UK: OverlayDict = {
   "grenade:inf-library": { title: "Смок на Library", position: "Та сама точка, що й для Arch", aim: "Нижче, ніж для Arch", purpose: "Закриває Library під час обходу A.", instructions: ["Та сама точка, що й для смоку на Arch.", "Цілься нижче.", "Jump throw."] },
   "grenade:inf-ct-banana": { title: "Смок на CT", position: "Позначка на Banana", aim: "Трохи лівіше кута церкви", purpose: "Відрізає ротацію CT і буст під час виходу на B.", instructions: ["Стань на позначку на Banana.", "Подивись угору трохи лівіше кута церкви.", "Кидок ЛКМ. Заразом закриває буст."] },
   "grenade:inf-coffins-banana": { title: "Смок на Coffins", position: "Далі по Banana, на позначці", aim: "Над риштованнями, на смужку ламп", purpose: "Прибирає захисника на Coffins під час виходу на B.", instructions: ["Пройди далі по Banana до позначки.", "Цілься над риштованнями на смужку ламп.", "Кидок ЛКМ."] },
-  "grenade:inf-newbox-molly": { title: "Молотов на New Box", position: "Див. джерело", aim: "Див. джерело", purpose: "Випалює близьку точку New Box перед входом.", instructions: ["Частина простого виходу на B: молотов на New Box після смоків на CT і Coffins."], note: NO_SHOT },
 
   // ───── Dust II
   "grenade:d2-ct-long": { title: "Смок на CT з Long", position: "З розбігу біля кута стіни A Long", aim: "Лівіше антени", purpose: "Дає гравцям з Long перейти на A без огляду CT.", instructions: ["Біжи до кута стіни A Long.", "Цілься лівіше антени.", "Jump throw з розбігу."] },

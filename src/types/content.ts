@@ -124,6 +124,8 @@ export type ThrowType =
   | "right-click"
   | "jump-throw"
   | "run-jump-throw"
+  | "run-throw"
+  | "both-click"
   | "walk-throw"
   | "crouch-throw"
   | "unknown";

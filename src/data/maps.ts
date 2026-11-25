@@ -208,6 +208,7 @@ export const MAPS: CsMap[] = [
       c("ct", "CT Spawn", 50, 15, "CT"),
       c("house", "House", 64, 30, "CT"),
       c("temple", "Temple", 40, 22, "A"),
+      c("red", "Red Room", 47, 34, "mid"),
     ],
     edges: [
       ["tspawn", "amain"], ["amain", "a"], ["tspawn", "mid"], ["mid", "donut"], ["donut", "a"], ["mid", "cave"],
@@ -278,6 +279,7 @@ export const MAPS: CsMap[] = [
       c("garage", "Garage", 75, 64, "neutral"),
       c("tred", "T Red", 57, 72, "T"),
       c("ct", "CT Spawn", 82, 46, "CT"),
+      c("troof", "T Roof", 46, 44, "T"),
     ],
     edges: [
       ["tspawn", "outside"], ["tspawn", "lobby"], ["lobby", "hut"], ["hut", "a"], ["lobby", "ramp"], ["ramp", "b"],
@@ -335,8 +337,9 @@ export const MAPS: CsMap[] = [
       c("long", "A Long", 22, 55, "T"),
       c("a", "A Site", 48, 18, "A"),
       c("ct", "CT Spawn", 60, 12, "CT"),
+      c("mid", "Mid", 38, 48, "mid"),
     ],
-    edges: [["tspawn", "monster"], ["monster", "b"], ["b", "connector"], ["connector", "a"], ["tspawn", "long"], ["long", "a"], ["a", "ct"], ["b", "ct"]],
+    edges: [["tspawn", "mid"], ["mid", "a"], ["mid", "connector"], ["tspawn", "monster"], ["monster", "b"], ["b", "connector"], ["connector", "a"], ["tspawn", "long"], ["long", "a"], ["a", "ct"], ["b", "ct"]],
     routes: [{ id: "o-r1", name: "Monster → B", side: "T", path: ["tspawn", "monster", "b"], description: "Main B entry." }],
     positions: [],
     timings: [],

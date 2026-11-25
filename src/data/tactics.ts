@@ -129,7 +129,7 @@ const TACTICS_CORE: Tactic[] = [
       { label: "Flash & enter", detail: "Flash over the site and enter together.", focus: ["b"] },
       { label: "Clear & plant", detail: "Clear Dark and Oranges; plant only after the core angles are controlled.", focus: ["b"] },
     ],
-    grenadeIds: ["inf-ct-banana", "inf-coffins-banana", "inf-newbox-molly"],
+    grenadeIds: ["inf-ct-banana", "inf-coffins-banana", "inf-rf-newbox-molly"],
     utilityNotes: ["2 smokes, 1 molotov, flashes"],
     difficulty: "easy",
     meta: { sourceId: "expcarry-inferno", status: "verified", checkedAt: D, note: ROLE_NOTE },

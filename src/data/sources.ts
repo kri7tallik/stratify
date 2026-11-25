@@ -189,6 +189,62 @@ export const SOURCES: Source[] = [
     url: "https://cybersport.metaratings.ru/guides/luchshie-raskidki-na-cache-v-cs2/",
     publisher: "Metaratings",
   },
+  // ── 2025 lineup guides with stand / aim / result screenshots
+  ...(
+    [
+      ["mirage", "6-must-know-nades-for-mirage/", "Mirage", "2025-03-12"],
+      ["inferno", "5-must-know-nades-for-inferno", "Inferno", "2025-03-26"],
+      ["dust2", "5-must-know-nades-for-dust2/", "Dust2", "2025-03-06"],
+      ["nuke", "7-must-know-nades-for-nuke", "Nuke", "2025-04-03"],
+      ["ancient", "5-must-know-nades-for-ancient/", "Ancient", "2025-02-22"],
+      ["anubis", "7-must-know-nades-for-anubis", "Anubis", "2025-02-12"],
+      ["cache", "5-must-know-nades-for-cache", "Cache", "2025-07-15"],
+      ["train", "5-must-know-nades-for-train", "Train", "2025-01-21"],
+    ] as const
+  ).map(([id, slug, map, date]): Source => ({
+    id: `refrag-${id}`,
+    name: `CS2 Utility Secrets: Must-Know Nades For ${map}`,
+    kind: "article",
+    url: `https://refrag.gg/blog/cs2-utility-secrets-${slug}`,
+    author: "Samuel Allen",
+    publisher: "Refrag",
+    description: `Published ${date}. Stand / aim / result screenshot for every lineup.`,
+  })),
+  {
+    id: "refrag-overpass",
+    name: "CS2 Utility Secrets: 5 Must-Know Nades For Overpass",
+    kind: "article",
+    url: "https://refrag.gg/blog/cs2-5-must-know-nades-for-overpass/",
+    author: "Samuel Allen",
+    publisher: "Refrag",
+    description: "Published 2025-07-20. Stand / aim / result screenshot for every lineup.",
+  },
+  ...(
+    [
+      ["mirage", "mirage", "Mirage"],
+      ["inferno", "inferno", "Inferno"],
+      ["dust2", "dust-2", "Dust 2"],
+      ["nuke", "nuke", "Nuke"],
+      ["ancient", "ancient", "Ancient"],
+      ["anubis", "anubis", "Anubis"],
+    ] as const
+  ).map(([id, slug, map]): Source => ({
+    id: `cs2pulse-he-${id}`,
+    name: `CS2 ${map} HE Grenades`,
+    kind: "article",
+    url: `https://cs2pulse.com/he-grenades/${slug}/`,
+    publisher: "CS2 Pulse",
+    description: "HE lineups first published July 2024, page updated 2025-07-08. Aim + result screenshot per lineup.",
+  })),
+  {
+    id: "bo3-mirage-flash",
+    name: "CS2 Mirage: Complete Flashbang Guide",
+    kind: "article",
+    url: "https://bo3.gg/articles/cs2-mirage-complete-flashbang-guide",
+    author: "Siemka",
+    publisher: "bo3.gg",
+    description: "Published 2025-03-02.",
+  },
   {
     id: "stratify",
     name: "STRATIFY editorial",

@@ -3,6 +3,7 @@ import type { CsMap, Exercise, Grenade, PlaybookEntry, SourceMeta, Tactic, Train
 import { useLang, type Lang } from "@/i18n";
 import { RU } from "./ru";
 import { UK } from "./uk";
+import { SHARED_NOTES } from "./notes";
 
 /**
  * Content translations are overlays on the English base data, keyed by
@@ -36,16 +37,19 @@ export type OverlayDict = Record<string, Overlay>;
 
 const DICTS: Record<Exclude<Lang, "en">, OverlayDict> = { ru: RU, uk: UK };
 
-const withNote = (meta: SourceMeta, o?: Overlay): SourceMeta => (o?.note && meta.note ? { ...meta, note: o.note } : meta);
-
 export function localizer(lang: Lang) {
   const d = lang === "en" ? undefined : DICTS[lang];
   const get = (k: string) => d?.[k];
+  const withNote = (meta: SourceMeta, o?: Overlay): SourceMeta => {
+    if (!meta.note) return meta;
+    const note = o?.note ?? SHARED_NOTES[meta.note]?.[lang];
+    return note ? { ...meta, note } : meta;
+  };
 
   return {
     grenade(g: Grenade): Grenade {
       const o = get(`grenade:${g.id}`);
-      if (!o) return g;
+      if (!o) return { ...g, meta: withNote(g.meta) };
       return { ...g, title: o.title ?? g.title, position: o.position ?? g.position, aim: o.aim ?? g.aim, purpose: o.purpose ?? g.purpose, instructions: o.instructions ?? g.instructions, meta: withNote(g.meta, o) };
     },
     tactic(t: Tactic): Tactic {

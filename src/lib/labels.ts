@@ -3,7 +3,7 @@ import type { Difficulty, ExerciseCategory, GrenadeType, TacticCategory, ThrowTy
 import { useT, type UIKey } from "@/i18n";
 
 const GRENADE_TYPES: GrenadeType[] = ["smoke", "flash", "molotov", "he"];
-const THROWS: ThrowType[] = ["left-click", "right-click", "jump-throw", "run-jump-throw", "walk-throw", "crouch-throw", "unknown"];
+const THROWS: ThrowType[] = ["left-click", "right-click", "jump-throw", "run-jump-throw", "run-throw", "both-click", "walk-throw", "crouch-throw", "unknown"];
 const DIFFS: Difficulty[] = ["easy", "medium", "hard"];
 const TCATS: TacticCategory[] = ["execute", "default", "split", "fake", "retake", "pistol", "eco", "force"];
 const ECATS: ExerciseCategory[] = ["aim", "spray", "movement", "counter-strafe", "prefire", "deathmatch", "utility", "game-sense", "positioning"];
