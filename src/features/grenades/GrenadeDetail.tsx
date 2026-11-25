@@ -10,6 +10,11 @@ import { useT } from "@/i18n";
 import { openExternal } from "@/lib/open";
 import { NadeDot } from "./GrenadeCard";
 import { LineupImage } from "./LineupImage";
+import { LineupLightbox, sortShots } from "./LineupLightbox";
+import { useEffect, useMemo, useState } from "react";
+
+/** Grenade drawers are wide so the lineup screenshots are actually readable. */
+export const NADE_DRAWER_WIDTH = 920;
 
 function videoEmbed(url?: string): string | null {
   if (!url) return null;
@@ -18,13 +23,17 @@ function videoEmbed(url?: string): string | null {
 }
 
 export function GrenadeDetail({ g }: { g: Grenade }) {
-  const { mapById } = useContent();
+  const { mapById, sourceById } = useContent();
   const L = useLabels();
   const t = useT();
   const map = mapById(g.map)!;
   const learned = useAppStore((s) => !!s.learnedGrenades[g.id]);
   const toggle = useAppStore((s) => s.toggleLearnedGrenade);
   const embed = videoEmbed(g.videoUrl);
+  const shots = useMemo(() => sortShots(g.images ?? []), [g.images]);
+  const [shot, setShot] = useState<number | null>(null);
+  const sourceUrl = g.meta.url || sourceById(g.meta.sourceId)?.url || undefined;
+  useEffect(() => setShot(null), [g.id]);
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.1 }} className="space-y-5 p-5">
@@ -39,15 +48,29 @@ export function GrenadeDetail({ g }: { g: Grenade }) {
         <FavoriteButton refItem={{ kind: "grenade", id: g.id }} />
       </div>
 
-      {g.images && g.images.length > 0 && (
+      {shots.length > 0 ? (
         <div className="space-y-2">
-          {g.images.map((img, i) => (
-            <motion.div key={img.src} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.12 + i * 0.08 }}>
-              <LineupImage img={img} className="chamfer" />
-            </motion.div>
-          ))}
+          <div className="flex items-center justify-between">
+            <span className="tag-label">{t("nade.shots")}</span>
+            <span className="hidden text-[11px] text-ink-faint sm:inline">{t("lb.open")}</span>
+          </div>
+          <div className="grid gap-2.5">
+            {shots.map((img, i) => (
+              <motion.div
+                key={img.src + i}
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.12 + i * 0.08 }}
+              >
+                <LineupImage img={img} step={i + 1} className="chamfer" onOpen={() => setShot(i)} />
+              </motion.div>
+            ))}
+          </div>
         </div>
+      ) : (
+        <p className="chamfer bg-black/30 p-3 text-[12px] text-ink-faint ring-1 ring-inset ring-line">{t("nade.noShots")}</p>
       )}
+      <LineupLightbox images={shots} index={shot} onIndex={setShot} onClose={() => setShot(null)} title={g.title} sourceUrl={sourceUrl} />
 
       {embed && (
         <div className="chamfer aspect-video overflow-hidden">

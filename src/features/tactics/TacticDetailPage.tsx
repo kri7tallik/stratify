@@ -8,7 +8,7 @@ import { useContent } from "@/services/content";
 import { useAppStore } from "@/store/useAppStore";
 import { useLabels } from "@/lib/labels";
 import { useT } from "@/i18n";
-import { GrenadeDetail } from "@/features/grenades/GrenadeDetail";
+import { GrenadeDetail, NADE_DRAWER_WIDTH } from "@/features/grenades/GrenadeDetail";
 import { NadeDot } from "@/features/grenades/GrenadeCard";
 import { openExternal } from "@/lib/open";
 import { cn } from "@/lib/cn";
@@ -188,7 +188,7 @@ export function TacticDetailPage() {
         </div>
       </div>
 
-      <Drawer open={!!opened} onClose={() => setNade(null)} title={tr("nade.drawer")}>{opened && <GrenadeDetail g={opened} />}</Drawer>
+      <Drawer open={!!opened} onClose={() => setNade(null)} title={tr("nade.drawer")} width={NADE_DRAWER_WIDTH}>{opened && <GrenadeDetail g={opened} />}</Drawer>
     </Page>
   );
 }

@@ -9,7 +9,7 @@ import { useAppStore } from "@/store/useAppStore";
 import { greeting, todayKey } from "@/lib/format";
 import { MAP_BY_ID } from "@/data/maps";
 import { NadeDot } from "@/features/grenades/GrenadeCard";
-import { GrenadeDetail } from "@/features/grenades/GrenadeDetail";
+import { GrenadeDetail, NADE_DRAWER_WIDTH } from "@/features/grenades/GrenadeDetail";
 import { cn } from "@/lib/cn";
 import { useLang, useT } from "@/i18n";
 
@@ -211,7 +211,7 @@ export function DashboardPage() {
         </Card>
       </div>
 
-      <Drawer open={!!opened} onClose={() => setOpenNade(null)} title={t("nade.drawer")}>
+      <Drawer open={!!opened} onClose={() => setOpenNade(null)} title={t("nade.drawer")} width={NADE_DRAWER_WIDTH}>
         {opened && <GrenadeDetail g={opened} />}
       </Drawer>
     </Page>

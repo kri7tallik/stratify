@@ -6,7 +6,7 @@ import { MapSchematic } from "@/components/map/MapSchematic";
 import { useContent } from "@/services/content";
 import { useAppStore } from "@/store/useAppStore";
 import { GrenadeCard } from "@/features/grenades/GrenadeCard";
-import { GrenadeDetail } from "@/features/grenades/GrenadeDetail";
+import { GrenadeDetail, NADE_DRAWER_WIDTH } from "@/features/grenades/GrenadeDetail";
 import { TacticCard } from "@/features/tactics/TacticCard";
 import { CalloutQuizPanel, useCalloutQuiz } from "./CalloutQuiz";
 import type { Callout, MapId, Side } from "@/types/content";
@@ -148,7 +148,7 @@ export function MapDetailPage() {
         </div>
       </div>
 
-      <Drawer open={!!opened} onClose={() => setNade(null)} title={t("nade.drawer")}>{opened && <GrenadeDetail g={opened} />}</Drawer>
+      <Drawer open={!!opened} onClose={() => setNade(null)} title={t("nade.drawer")} width={NADE_DRAWER_WIDTH}>{opened && <GrenadeDetail g={opened} />}</Drawer>
     </Page>
   );
 }

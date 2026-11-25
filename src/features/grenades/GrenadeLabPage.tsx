@@ -6,7 +6,7 @@ import { MapSchematic, NADE_COLOR } from "@/components/map/MapSchematic";
 import { useContent } from "@/services/content";
 import { useAppStore } from "@/store/useAppStore";
 import { GrenadeCard } from "./GrenadeCard";
-import { GrenadeDetail } from "./GrenadeDetail";
+import { GrenadeDetail, NADE_DRAWER_WIDTH } from "./GrenadeDetail";
 import { DIFFICULTIES, useLabels } from "@/lib/labels";
 import { useT } from "@/i18n";
 import { motion } from "framer-motion";
@@ -132,7 +132,7 @@ export function GrenadeLabPage() {
         </div>
       </div>
 
-      <Drawer open={!!opened} onClose={() => set("id", "")} title={t("nade.drawer")}>
+      <Drawer open={!!opened} onClose={() => set("id", "")} title={t("nade.drawer")} width={NADE_DRAWER_WIDTH}>
         {opened && <GrenadeDetail g={opened} />}
       </Drawer>
     </Page>
