@@ -1,7 +1,7 @@
-import { Page, PageHeader, Stagger, Rise } from "@/components/ui";
+import { Page, PageHeader } from "@/components/ui";
 import { useContent } from "@/services/content";
 import { useT } from "@/i18n";
-import { MapCard } from "./MapCard";
+import { MapShelf } from "./MapShelf";
 
 export function MapsPage() {
   const { maps } = useContent();
@@ -9,13 +9,7 @@ export function MapsPage() {
   return (
     <Page>
       <PageHeader kicker="CS2 · Map pool" title={t("maps.title")} />
-      <Stagger className="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
-        {maps.map((m) => (
-          <Rise key={m.id}>
-            <MapCard map={m} />
-          </Rise>
-        ))}
-      </Stagger>
+      <MapShelf maps={maps} />
     </Page>
   );
 }

@@ -146,6 +146,8 @@ export const UI = {
 
   // ── maps
   "maps.title": e("Карти", "Карты", "Maps"),
+  "maps.open": e("Відкрити карту", "Открыть карту", "Open map"),
+  "maps.shelfHint": e("клік по корінцю · ← → · Home / End · свайп", "клик по корешку · ← → · Home / End · свайп", "click a spine · ← → · Home / End · swipe"),
   "maps.tabNades": e("Гранати", "Гранаты", "Grenades"),
   "maps.tabTactics": e("Тактики", "Тактики", "Tactics"),
   "maps.tabPositions": e("Позиції", "Позиции", "Positions"),
