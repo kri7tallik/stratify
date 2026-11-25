@@ -5,12 +5,15 @@ import { useContent } from "@/services/content";
 import { useAppStore } from "@/store/useAppStore";
 import { GrenadeCard } from "@/features/grenades/GrenadeCard";
 import { TacticCard } from "@/features/tactics/TacticCard";
-import { EXERCISE_LABEL } from "@/lib/labels";
+import { useLabels } from "@/lib/labels";
+import { useT } from "@/i18n";
 
 export function FavoritesPage() {
   const favs = useAppStore((s) => s.favorites);
   const { grenades, tactics, exercises, playbook } = useContent();
   const nav = useNavigate();
+  const tr = useT();
+  const L = useLabels();
   const ids = (kind: string) => favs.filter((f) => f.startsWith(kind + ":")).map((f) => f.slice(kind.length + 1));
   const g = ids("grenade").map((id) => grenades.find((x) => x.id === id)).filter((x): x is NonNullable<typeof x> => !!x);
   const t = ids("tactic").map((id) => tactics.find((x) => x.id === id)).filter((x): x is NonNullable<typeof x> => !!x);
@@ -20,18 +23,18 @@ export function FavoritesPage() {
 
   return (
     <Page>
-      <PageHeader title="Избранное" />
+      <PageHeader title={tr("fav.title")} />
       {empty ? (
-        <EmptyState icon={<Heart size={20} />} title="Избранное пусто" text="Добавляйте то, что хотите повторить перед матчем." />
+        <EmptyState icon={<Heart size={20} />} title={tr("fav.empty")} text={tr("fav.emptyText")} />
       ) : (
         <>
-          {g.length > 0 && (<><SectionTitle>Гранаты · {g.length}</SectionTitle><div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">{g.map((x) => <GrenadeCard key={x.id} g={x} onOpen={() => nav(`/grenades?id=${x.id}`)} />)}</div></>)}
-          {t.length > 0 && (<><SectionTitle>Тактики · {t.length}</SectionTitle><div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">{t.map((x) => <TacticCard key={x.id} t={x} onOpen={() => nav(`/tactics/${x.id}`)} />)}</div></>)}
+          {g.length > 0 && (<><SectionTitle>{tr("fav.nades")} · {g.length}</SectionTitle><div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">{g.map((x) => <GrenadeCard key={x.id} g={x} onOpen={() => nav(`/grenades?id=${x.id}`)} />)}</div></>)}
+          {t.length > 0 && (<><SectionTitle>{tr("fav.tactics")} · {t.length}</SectionTitle><div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3">{t.map((x) => <TacticCard key={x.id} t={x} onOpen={() => nav(`/tactics/${x.id}`)} />)}</div></>)}
           {e.length > 0 && (
-            <><SectionTitle>Упражнения · {e.length}</SectionTitle>
+            <><SectionTitle>{tr("fav.exercises")} · {e.length}</SectionTitle>
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3">{e.map((x) => (
-                <Card key={x.id} interactive className="flex items-center gap-3 p-4" onClick={() => nav(`/training?exercise=${x.id}`)}>
-                  <div className="flex-1"><Badge>{EXERCISE_LABEL[x.category]}</Badge><div className="mt-1.5 text-[14px] font-medium">{x.name}</div></div>
+                <Card key={x.id} interactive inner="flex items-center gap-3 p-4" onClick={() => nav(`/training?exercise=${x.id}`)}>
+                  <div className="flex-1"><Badge>{L.exercise[x.category]}</Badge><div className="mt-1.5 font-display text-[14px] font-semibold">{x.name}</div></div>
                   <FavoriteButton refItem={{ kind: "exercise", id: x.id }} />
                 </Card>))}
               </div></>
@@ -39,8 +42,8 @@ export function FavoritesPage() {
           {p.length > 0 && (
             <><SectionTitle>Pro Playbook · {p.length}</SectionTitle>
               <div className="grid grid-cols-1 gap-3 md:grid-cols-3">{p.map((x) => (
-                <Card key={x.id} interactive className="flex items-center gap-3 p-4" onClick={() => nav(`/playbook?id=${x.id}`)}>
-                  <div className="flex-1"><div className="text-[12px] text-ink-faint">{x.player ?? x.team}</div><div className="text-[14px] font-medium">{x.title}</div></div>
+                <Card key={x.id} interactive inner="flex items-center gap-3 p-4" onClick={() => nav(`/playbook?id=${x.id}`)}>
+                  <div className="flex-1"><div className="text-[12px] text-ink-faint">{x.player ?? x.team}</div><div className="font-display text-[14px] font-semibold">{x.title}</div></div>
                   <FavoriteButton refItem={{ kind: "playbook", id: x.id }} />
                 </Card>))}
               </div></>

@@ -10,7 +10,7 @@ const calloutMeta = (note?: string): SourceMeta => ({
   checkedAt: CHECKED,
   note:
     note ??
-    "Callout names follow the in-game radar names. The schematic is a simplified layout, not a radar-accurate overview — load your own radar image in the map page for exact positions.",
+    "Radar: official overview extracted from CS2 game files (© Valve). Callout markers were placed by hand and are approximate.",
 });
 
 const poolMeta = (activeDuty: boolean): Pick<CsMap, "activeDuty" | "activeDutyNote"> => ({

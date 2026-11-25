@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import type { ContentRef, Grenade, MapId, MapTiming, PlaybookEntry, Source, Tactic } from "@/types/content";
 import { todayKey, uid } from "@/lib/format";
+import type { Lang } from "@/i18n";
+import { detectLang } from "@/i18n/detect";
 
 export interface TrainingSession {
   id: string;
@@ -34,6 +36,7 @@ export interface UserContent {
 }
 
 interface State {
+  lang: Lang;
   playerName: string;
   lastMapId: MapId;
   learnedGrenades: Record<string, string>;
@@ -48,6 +51,7 @@ interface State {
 }
 
 interface Actions {
+  setLang(lang: Lang): void;
   setPlayerName(name: string): void;
   setLastMap(id: MapId): void;
   toggleLearnedGrenade(id: string): void;
@@ -87,6 +91,7 @@ const toggleRecord = (rec: Record<string, string>, id: string) => {
 };
 
 const initial: State = {
+  lang: detectLang(),
   playerName: "",
   lastMapId: "mirage",
   learnedGrenades: {},
@@ -103,6 +108,7 @@ export const useAppStore = create<State & Actions>()(
   persist(
     (set, get) => ({
       ...initial,
+      setLang: (lang) => set({ lang }),
       setPlayerName: (playerName) => set({ playerName }),
       setLastMap: (lastMapId) => set({ lastMapId }),
       toggleLearnedGrenade: (id) => set((s) => ({ learnedGrenades: toggleRecord(s.learnedGrenades, id) })),

@@ -6,6 +6,8 @@ import { getSupabase, readSupabaseConfig, saveSupabaseConfig } from "@/lib/supab
 import { useAppStore, progressSnapshot } from "@/store/useAppStore";
 import { useContent } from "@/services/content";
 import { fmtDate } from "@/lib/format";
+import { LANGS, useLang, useT } from "@/i18n";
+import { cn } from "@/lib/cn";
 
 function useSession() {
   const [session, setSession] = useState<Session | null>(null);
@@ -23,6 +25,9 @@ export function SettingsPage() {
   const name = useAppStore((s) => s.playerName);
   const setName = useAppStore((s) => s.setPlayerName);
   const importSnapshot = useAppStore((s) => s.importSnapshot);
+  const setLang = useAppStore((s) => s.setLang);
+  const lang = useLang();
+  const t = useT();
   const { remote, refresh } = useContent();
   const cfg = readSupabaseConfig();
   const [url, setUrl] = useState(cfg?.url ?? "");
@@ -51,20 +56,37 @@ export function SettingsPage() {
 
   return (
     <Page className="max-w-4xl">
-      <PageHeader title="Профиль и данные" />
+      <PageHeader title={t("set.title")} />
 
       <Card className="mb-4">
-        <CardHeader title="Профиль" />
+        <CardHeader title={t("set.language")} />
+        <div className="grid grid-cols-1 gap-2 p-5 sm:grid-cols-3">
+          {LANGS.map((l) => (
+            <button
+              key={l.id}
+              onClick={() => setLang(l.id)}
+              data-active={lang === l.id ? "true" : undefined}
+              className={cn("hud chamfer chamfer-sm flex items-center gap-3 px-4 py-3 text-left ring-1 ring-inset transition", lang === l.id ? "bg-accent/15 ring-accent/60" : "bg-black/25 ring-line hover:ring-line-strong")}
+            >
+              <span className={cn("font-display text-xl font-bold", lang === l.id ? "text-accent" : "text-ink-faint")}>{l.short}</span>
+              <span className="text-[13px] font-medium">{l.label}</span>
+            </button>
+          ))}
+        </div>
+      </Card>
+
+      <Card className="mb-4">
+        <CardHeader title={t("set.profile")} />
         <div className="p-5">
-          <Field label="Ник" hint="Используется в приветствии на Dashboard."><Input value={name} onChange={(e) => setName(e.target.value)} placeholder="Ваш ник" className="max-w-sm" /></Field>
+          <Field label={t("set.nick")} hint={t("set.nickHint")}><Input value={name} onChange={(e) => setName(e.target.value)} placeholder={t("c.yourNick")} className="max-w-sm" /></Field>
         </div>
       </Card>
 
       <Card className="mb-4">
         <CardHeader
           title="Supabase"
-          subtitle="Необязательно. Даёт удалённый каталог контента (таблица content_items) и облачную копию прогресса. Схема: supabase/migrations/0001_init.sql"
-          action={remote.enabled ? <Badge tone={remote.error ? "bad" : "ok"}>{remote.error ? "Ошибка" : "Подключено"}</Badge> : <Badge>Отключено</Badge>}
+          subtitle={t("set.sbSub")}
+          action={remote.enabled ? <Badge tone={remote.error ? "bad" : "ok"}>{remote.error ? t("set.error") : t("set.connected")}</Badge> : <Badge>{t("set.disabled")}</Badge>}
         />
         <div className="space-y-3 p-5">
           <div className="grid grid-cols-2 gap-3">
@@ -80,42 +102,42 @@ export function SettingsPage() {
                 window.location.reload();
               }}
             >
-              Сохранить и подключить
+              {t("set.connect")}
             </Button>
             {cfg && (
               <>
-                <Button onClick={() => void refresh()} disabled={remote.loading}>{remote.loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />} Обновить каталог</Button>
-                <Button variant="ghost" onClick={() => { saveSupabaseConfig(null); window.location.reload(); }}>Отключить</Button>
+                <Button onClick={() => void refresh()} disabled={remote.loading}>{remote.loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />} {t("set.refresh")}</Button>
+                <Button variant="ghost" onClick={() => { saveSupabaseConfig(null); window.location.reload(); }}>{t("set.disconnect")}</Button>
               </>
             )}
           </div>
-          {remote.enabled && !remote.error && <p className="text-[12px] text-ink-faint">Загружено {remote.count} записей{remote.lastSync ? ` · ${fmtDate(remote.lastSync)}` : ""}.</p>}
-          {remote.error && <ErrorNotice title="Каталог не загрузился" message={remote.error} onRetry={() => void refresh()} />}
+          {remote.enabled && !remote.error && <p className="text-[12px] text-ink-faint">{t("set.loaded", { n: remote.count })}{remote.lastSync ? ` · ${fmtDate(remote.lastSync, lang)}` : ""}</p>}
+          {remote.error && <ErrorNotice title={t("set.catalogFailed")} message={remote.error} onRetry={() => void refresh()} />}
         </div>
       </Card>
 
       {sb && (
         <Card>
-          <CardHeader title="Облачная копия прогресса" subtitle="Вход по одноразовому коду из письма (Supabase Auth, Email OTP)." />
+          <CardHeader title={t("set.cloud")} subtitle={t("set.cloudSub")} />
           <div className="space-y-4 p-5">
             {!session ? (
               stage === "email" ? (
-                <form className="flex items-end gap-2" onSubmit={(e) => { e.preventDefault(); void run(async () => { const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true } }); if (error) throw error; setStage("code"); setMsg("Код отправлен на почту."); }); }}>
+                <form className="flex items-end gap-2" onSubmit={(e) => { e.preventDefault(); void run(async () => { const { error } = await sb.auth.signInWithOtp({ email, options: { shouldCreateUser: true } }); if (error) throw error; setStage("code"); setMsg(t("set.codeSent")); }); }}>
                   <Field label="Email" className="flex-1"><Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} /></Field>
-                  <Button type="submit" variant="primary" disabled={busy || !email.includes("@")}>{busy && <Loader2 size={14} className="animate-spin" />} Получить код</Button>
+                  <Button type="submit" variant="primary" disabled={busy || !email.includes("@")}>{busy && <Loader2 size={14} className="animate-spin" />} {t("set.getCode")}</Button>
                 </form>
               ) : (
-                <form className="flex items-end gap-2" onSubmit={(e) => { e.preventDefault(); void run(async () => { const { error } = await sb.auth.verifyOtp({ email, token: code.trim(), type: "email" }); if (error) throw error; setMsg("Вход выполнен."); }); }}>
-                  <Field label="Код из письма" className="flex-1"><Input value={code} onChange={(e) => setCode(e.target.value)} inputMode="numeric" /></Field>
-                  <Button type="submit" variant="primary" disabled={busy || code.length < 6}>Войти</Button>
-                  <Button type="button" variant="ghost" onClick={() => setStage("email")}>Назад</Button>
+                <form className="flex items-end gap-2" onSubmit={(e) => { e.preventDefault(); void run(async () => { const { error } = await sb.auth.verifyOtp({ email, token: code.trim(), type: "email" }); if (error) throw error; setMsg(t("set.signedIn")); }); }}>
+                  <Field label={t("set.code")} className="flex-1"><Input value={code} onChange={(e) => setCode(e.target.value)} inputMode="numeric" /></Field>
+                  <Button type="submit" variant="primary" disabled={busy || code.length < 6}>{t("set.signIn")}</Button>
+                  <Button type="button" variant="ghost" onClick={() => setStage("email")}>{t("c.back")}</Button>
                 </form>
               )
             ) : (
               <>
-                <div className="flex items-center justify-between rounded-lg border border-line bg-bg p-3 text-[13px]">
-                  <span>Вошли как <b>{session.user.email}</b></span>
-                  <Button size="sm" variant="ghost" onClick={() => void sb.auth.signOut()}><LogOut size={14} /> Выйти</Button>
+                <div className="chamfer chamfer-sm flex items-center justify-between bg-black/30 p-3 text-[13px] ring-1 ring-inset ring-line">
+                  <span>{t("set.signedAs", { email: session.user.email ?? "" })}</span>
+                  <Button size="sm" variant="ghost" onClick={() => void sb.auth.signOut()}><LogOut size={14} /> {t("set.signOut")}</Button>
                 </div>
                 <div className="flex gap-2">
                   <Button
@@ -123,22 +145,22 @@ export function SettingsPage() {
                     onClick={() => void run(async () => {
                       const { error } = await sb.from("progress_snapshots").upsert({ user_id: session.user.id, payload: progressSnapshot(), updated_at: new Date().toISOString() });
                       if (error) throw error;
-                      setMsg("Прогресс сохранён в облако.");
+                      setMsg(t("set.saved"));
                     })}
                   >
-                    <CloudUpload size={14} /> Сохранить в облако
+                    <CloudUpload size={14} /> {t("set.backup")}
                   </Button>
                   <Button
                     disabled={busy}
                     onClick={() => void run(async () => {
                       const { data, error } = await sb.from("progress_snapshots").select("payload, updated_at").eq("user_id", session.user.id).maybeSingle();
                       if (error) throw error;
-                      if (!data) throw new Error("В облаке ещё нет копии.");
+                      if (!data) throw new Error(t("set.noBackup"));
                       importSnapshot(data.payload);
-                      setMsg(`Восстановлено из копии от ${fmtDate(data.updated_at)}.`);
+                      setMsg(t("set.restored", { date: fmtDate(data.updated_at, lang) }));
                     })}
                   >
-                    <CloudDownload size={14} /> Восстановить
+                    <CloudDownload size={14} /> {t("set.restore")}
                   </Button>
                 </div>
               </>

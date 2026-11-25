@@ -24,6 +24,8 @@ interface Props {
   labels?: "all" | "focus" | "none";
   /** hide callout dots entirely (thumbnails) */
   dots?: boolean;
+  /** animated radar sweep overlay */
+  sweep?: boolean;
   className?: string;
 }
 
@@ -48,6 +50,7 @@ export function MapSchematic({
   onTrajectoryClick,
   labels = "focus",
   dots = true,
+  sweep = true,
   className,
 }: Props) {
   const [hover, setHover] = useState<string | null>(null);
@@ -56,8 +59,14 @@ export function MapSchematic({
   const routePts = (routePath ?? []).map((id) => byId[id]).filter(Boolean);
 
   return (
-    <div className={cn("relative overflow-hidden rounded-xl bg-[#0d0e11]", className)}>
-      <svg viewBox="0 0 100 100" className="block h-full w-full" preserveAspectRatio="xMidYMid meet">
+    <div className={cn("chamfer chamfer-lg relative overflow-hidden bg-[radial-gradient(circle_at_50%_50%,#121a24,#07090c_70%)] ring-1 ring-inset ring-line", className)}>
+      {sweep && (
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[150%] -translate-x-1/2 -translate-y-1/2 animate-sweep rounded-full bg-[conic-gradient(from_0deg,rgba(255,107,26,0.13),transparent_10%,transparent)] [mask-image:radial-gradient(circle,#000_35%,transparent_68%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle,transparent_55%,rgba(7,9,12,.85))]" />
+        </div>
+      )}
+      <svg viewBox="0 0 100 100" className="relative block h-full w-full" preserveAspectRatio="xMidYMid meet">
         <defs>
           <marker id={`arrow-${map.id}`} viewBox="0 0 10 10" refX="7" refY="5" markerWidth="4" markerHeight="4" orient="auto-start-reverse">
             <path d="M0 0L10 5L0 10z" fill="context-stroke" />
@@ -93,9 +102,9 @@ export function MapSchematic({
             <g key={t.id} className={onTrajectoryClick ? "cursor-pointer" : undefined} onClick={() => onTrajectoryClick?.(t.id)} opacity={t.active === false ? 0.2 : 1}>
               <path d={d} fill="none" stroke="transparent" strokeWidth={3} />
               <path d={d} fill="none" stroke="#000" strokeOpacity={0.5} strokeWidth={0.9} />
-              <path d={d} fill="none" stroke={color} strokeWidth={0.45} strokeDasharray="1.2 0.8" strokeLinecap="round" />
+              <path d={d} fill="none" stroke={color} strokeWidth={0.45} strokeDasharray="1.2 0.8" strokeLinecap="round" className="animate-march" />
               <circle cx={p.x} cy={p.y} r={0.9} fill="#0d0e11" stroke={color} strokeWidth={0.4} />
-              <circle cx={q.x} cy={q.y} r={t.type === "smoke" ? 2.6 : 1.8} fill={color} fillOpacity={0.35} stroke={color} strokeWidth={0.3} />
+              <motion.circle cx={q.x} cy={q.y} r={t.type === "smoke" ? 2.6 : 1.8} fill={color} fillOpacity={0.3} stroke={color} strokeWidth={0.3} initial={{ scale: 0 }} animate={{ scale: [1, 1.15, 1] }} transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }} style={{ transformOrigin: `${q.x}px ${q.y}px` }} />
             </g>
           );
         })}
@@ -116,7 +125,7 @@ export function MapSchematic({
                 {on && <motion.circle cx={c.x} cy={c.y} r={2.6} fill="#ff6a1a" initial={{ opacity: 0 }} animate={{ opacity: [0.35, 0.1, 0.35] }} transition={{ repeat: Infinity, duration: 1.8 }} />}
                 <circle cx={c.x} cy={c.y} r={on ? 1.1 : 0.7} fill={on ? "#ff6a1a" : "#ffffff"} fillOpacity={on ? 1 : 0.55} stroke="#0d0e11" strokeWidth={0.3} />
                 {show && (
-                  <text x={c.x} y={c.y - 2} textAnchor="middle" fontSize="2.3" fontWeight={600} fill="#fff" style={{ paintOrder: "stroke", stroke: "#0d0e11", strokeWidth: 0.9 }}>
+                  <text x={c.x} y={c.y - 2} textAnchor="middle" fontSize="2.3" fontWeight={700} fill="#fff" style={{ paintOrder: "stroke", stroke: "#07090c", strokeWidth: 0.9, fontFamily: "Tektur, sans-serif", letterSpacing: "0.04em" }}>
                     {c.name}
                   </text>
                 )}

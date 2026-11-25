@@ -4,6 +4,7 @@ import { Check, X, RotateCcw, Trophy } from "lucide-react";
 import type { CsMap } from "@/types/content";
 import { Button, Card, ProgressBar } from "@/components/ui";
 import { cn } from "@/lib/cn";
+import { useT } from "@/i18n";
 
 const ROUND = 10;
 
@@ -55,23 +56,24 @@ export function useCalloutQuiz(map: CsMap) {
 
 export function CalloutQuizPanel({ quiz }: { quiz: ReturnType<typeof useCalloutQuiz> }) {
   const { q, i, total, picked, score, done, choose, restart } = quiz;
+  const t = useT();
   if (done)
     return (
-      <Card className="p-6 text-center">
-        <div className="mx-auto grid h-12 w-12 place-items-center rounded-xl bg-accent/10 text-accent ring-1 ring-accent/30"><Trophy size={22} /></div>
-        <div className="mt-3 text-2xl font-semibold tabular-nums">{score}/{total}</div>
-        <p className="mt-1 text-[13px] text-ink-muted">{score === total ? "Идеально — callouts знаешь." : score >= total * 0.7 ? "Хорошо. Ещё раунд для закрепления?" : "Стоит повторить callouts этой карты."}</p>
-        <Button variant="primary" className="mt-4" onClick={restart}><RotateCcw size={14} /> Ещё раунд</Button>
+      <Card inner="p-6 text-center">
+        <div className="mx-auto grid h-12 w-12 place-items-center chamfer bg-accent/10 text-accent ring-1 ring-inset ring-accent/30"><Trophy size={22} /></div>
+        <div className="mt-3 font-display text-4xl font-bold tabular-nums text-gradient">{score}/{total}</div>
+        <p className="mt-1 text-[13px] text-ink-muted">{score === total ? t("quiz.perfect") : score >= total * 0.7 ? t("quiz.good") : t("quiz.repeat")}</p>
+        <Button variant="primary" className="mt-4" onClick={restart}><RotateCcw size={14} /> {t("quiz.again")}</Button>
       </Card>
     );
   return (
-    <Card className="p-5">
+    <Card inner="p-5">
       <div className="flex items-center justify-between text-[12px] text-ink-faint">
-        <span>Вопрос {i + 1} из {total}</span>
-        <span className="tabular-nums">Счёт: {score}</span>
+        <span className="tag-label !text-[10px]">{t("quiz.qOf", { i: i + 1, n: total })}</span>
+        <span className="font-mono tabular-nums text-accent">{t("quiz.score", { n: score })}</span>
       </div>
       <ProgressBar value={i / total} className="mt-2" />
-      <p className="mt-4 text-[15px] font-medium">Как называется подсвеченная позиция?</p>
+      <p className="mt-4 font-display text-[15px] font-semibold">{t("quiz.question")}</p>
       <AnimatePresence mode="wait">
         <motion.div key={i} initial={{ opacity: 0, y: 6 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="mt-3 grid grid-cols-2 gap-2">
           {q.options.map((o) => {
@@ -82,7 +84,7 @@ export function CalloutQuizPanel({ quiz }: { quiz: ReturnType<typeof useCalloutQ
                 key={o.id}
                 onClick={() => choose(o.id)}
                 className={cn(
-                  "flex h-11 items-center justify-between rounded-lg border px-3 text-left text-[13px] font-medium transition",
+                  "chamfer chamfer-sm flex h-11 items-center justify-between border px-3 text-left text-[13px] font-medium transition",
                   state === "ok" && "border-ok/60 bg-ok/10 text-ok",
                   state === "bad" && "border-bad/60 bg-bad/10 text-bad",
                   state === "idle" && "border-line bg-bg hover:border-line-strong hover:bg-bg-hover",

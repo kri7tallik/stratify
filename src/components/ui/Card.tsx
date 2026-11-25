@@ -3,21 +3,23 @@ import { cn } from "@/lib/cn";
 
 interface CardProps extends HTMLMotionProps<"div"> {
   interactive?: boolean;
+  active?: boolean;
+  /** inner className */
+  inner?: string;
 }
 
-export function Card({ interactive, className, children, ...rest }: CardProps) {
+/** Chamfered HUD panel: 1px gradient frame + glass surface. Interactive cards get corner brackets and a lift. */
+export function Card({ interactive, active, className, inner, children, ...rest }: CardProps) {
   return (
     <motion.div
-      whileHover={interactive ? { y: -2 } : undefined}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      className={cn(
-        "relative rounded-xl border border-line bg-bg-raised shadow-card",
-        interactive && "cursor-pointer transition-colors hover:border-line-strong hover:bg-bg-panel",
-        className,
-      )}
+      whileHover={interactive ? { y: -3 } : undefined}
+      whileTap={interactive ? { scale: 0.99 } : undefined}
+      transition={{ type: "spring", stiffness: 420, damping: 28 }}
+      data-active={active ? "true" : undefined}
+      className={cn("frame chamfer group/card", (interactive || active) && "hud", active && "frame-hot", interactive && "cursor-pointer", className)}
       {...rest}
     >
-      {children}
+      <div className={cn("surface chamfer relative h-full transition-colors duration-300", interactive && "group-hover/card:bg-bg-hover/60", inner)}>{children as React.ReactNode}</div>
     </motion.div>
   );
 }
@@ -26,7 +28,7 @@ export function CardHeader({ title, subtitle, action, className }: { title: Reac
   return (
     <div className={cn("flex items-start justify-between gap-3 px-5 pt-4", className)}>
       <div className="min-w-0">
-        <h3 className="text-[13px] font-semibold uppercase tracking-[0.08em] text-ink-muted">{title}</h3>
+        <h3 className="font-display text-[14px] font-semibold uppercase tracking-[0.12em] text-ink">{title}</h3>
         {subtitle && <p className="mt-0.5 text-xs text-ink-faint">{subtitle}</p>}
       </div>
       {action}

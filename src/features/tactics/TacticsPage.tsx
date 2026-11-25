@@ -4,15 +4,19 @@ import { Plus, Swords } from "lucide-react";
 import { Page, PageHeader, Segmented, Select, EmptyState, Button } from "@/components/ui";
 import { useContent } from "@/services/content";
 import { TacticCard } from "./TacticCard";
-import { TACTIC_LABEL } from "@/lib/labels";
+import { TACTIC_CATEGORIES, useLabels } from "@/lib/labels";
+import { useT } from "@/i18n";
+import { Stagger, Rise } from "@/components/ui";
 import type { TacticCategory } from "@/types/content";
 import { cn } from "@/lib/cn";
 
-const CATS = Object.keys(TACTIC_LABEL) as TacticCategory[];
+const CATS = TACTIC_CATEGORIES as readonly TacticCategory[];
 
 export function TacticsPage() {
   const { tactics, maps } = useContent();
   const nav = useNavigate();
+  const tr = useT();
+  const L = useLabels();
   const [params, setParams] = useSearchParams();
   const cat = (params.get("cat") as TacticCategory | "all") || "all";
   const mapId = params.get("map") || "all";
@@ -31,15 +35,16 @@ export function TacticsPage() {
   return (
     <Page>
       <PageHeader
-        title="Тактики"
+        kicker="Strats"
+        title={tr("tactics.title")}
         actions={
           <>
             <Select value={mapId} onChange={(e) => set("map", e.target.value)} className="w-40">
-              <option value="all">Все карты</option>
+              <option value="all">{tr("c.allMaps")}</option>
               {maps.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
             </Select>
-            <Segmented value={side} onChange={(v) => set("side", v)} options={[{ value: "all", label: "T + CT" }, { value: "T", label: "T" }, { value: "CT", label: "CT" }]} />
-            <Button onClick={() => nav("/library?add=tactic")}><Plus size={15} /> Добавить</Button>
+            <Segmented value={side} onChange={(v) => set("side", v)} options={[{ value: "all", label: tr("c.bothSides") }, { value: "T", label: "T" }, { value: "CT", label: "CT" }]} />
+            <Button onClick={() => nav("/library?add=tactic")}><Plus size={15} /> {tr("c.add")}</Button>
           </>
         }
       />
@@ -50,12 +55,12 @@ export function TacticsPage() {
             key={c}
             onClick={() => set("cat", c)}
             className={cn(
-              "flex h-8 items-center gap-1.5 rounded-lg border px-3 text-[13px] font-medium transition",
-              cat === c ? "border-accent/50 bg-accent/10 text-ink" : "border-line text-ink-muted hover:border-line-strong hover:text-ink",
+              "chamfer chamfer-sm flex h-8 items-center gap-1.5 px-3 font-display text-[11px] font-semibold uppercase tracking-wider ring-1 ring-inset transition",
+              cat === c ? "bg-accent/15 text-white ring-accent/50" : "text-ink-muted ring-line hover:text-ink hover:ring-line-strong",
             )}
           >
-            {c === "all" ? "Все" : TACTIC_LABEL[c]}
-            <span className="text-[11px] text-ink-faint">{c === "all" ? base.length : counts[c]}</span>
+            {c === "all" ? tr("c.all") : L.tactic[c]}
+            <span className={cn("font-mono text-[10px]", cat === c ? "text-accent" : "text-ink-faint")}>{c === "all" ? base.length : counts[c]}</span>
           </button>
         ))}
       </div>
@@ -63,14 +68,14 @@ export function TacticsPage() {
       {list.length === 0 ? (
         <EmptyState
           icon={<Swords size={20} />}
-          title={cat === "all" ? "Тактик не найдено" : `Пока нет проверенных тактик: ${TACTIC_LABEL[cat as TacticCategory]}`}
-          text="Мы не придумываем стратегии сами. Добавьте тактику из разбора матча, гайда или видео — со ссылкой на оригинал."
-          action={<Button size="sm" variant="primary" onClick={() => nav("/library?add=tactic")}><Plus size={14} /> Добавить тактику</Button>}
+          title={cat === "all" ? tr("tactics.empty") : tr("tactics.emptyCat", { cat: L.tactic[cat as TacticCategory] })}
+          text={tr("tactics.emptyHint")}
+          action={<Button size="sm" variant="primary" onClick={() => nav("/library?add=tactic")}><Plus size={14} /> {tr("tactics.add")}</Button>}
         />
       ) : (
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {list.map((t) => <TacticCard key={t.id} t={t} onOpen={() => nav(`/tactics/${t.id}`)} />)}
-        </div>
+        <Stagger key={cat + mapId + side} className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {list.map((t) => <Rise key={t.id}><TacticCard t={t} onOpen={() => nav(`/tactics/${t.id}`)} /></Rise>)}
+        </Stagger>
       )}
     </Page>
   );

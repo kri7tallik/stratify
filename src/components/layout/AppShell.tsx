@@ -1,16 +1,17 @@
 import { Suspense, useEffect, useState } from "react";
-import { Outlet, useLocation } from "react-router-dom";
-import { Sidebar } from "./Sidebar";
+import { useLocation, useOutlet } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import { MobileNav, Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
 import { CommandPalette } from "./CommandPalette";
 import { useAppStore } from "@/store/useAppStore";
 import { ErrorBoundary, Skeleton } from "@/components/ui";
+import { LOCALE } from "@/i18n";
 
 function PageFallback() {
   return (
-    <div className="mx-auto w-full max-w-[1400px] space-y-4 px-8 pt-6">
-      <Skeleton className="h-4 w-32" />
-      <Skeleton className="h-8 w-80" />
+    <div className="mx-auto w-full max-w-[1440px] space-y-4 px-8 pt-6">
+      <Skeleton className="h-9 w-72" />
       <div className="grid grid-cols-3 gap-4 pt-4">
         <Skeleton className="h-48" />
         <Skeleton className="h-48" />
@@ -42,7 +43,13 @@ function useSessionTicker() {
 export function AppShell() {
   const [search, setSearch] = useState(false);
   const loc = useLocation();
+  const outlet = useOutlet();
+  const lang = useAppStore((s) => s.lang);
   useSessionTicker();
+
+  useEffect(() => {
+    document.documentElement.lang = LOCALE[lang].slice(0, 2);
+  }, [lang]);
 
   useEffect(() => {
     const h = (e: KeyboardEvent) => {
@@ -60,18 +67,28 @@ export function AppShell() {
   }, [loc.pathname]);
 
   return (
-    <div className="flex h-screen w-screen overflow-hidden bg-bg text-ink">
+    <div className="grain relative flex h-screen w-screen overflow-hidden bg-bg text-ink">
+      <div className="backdrop" />
       <Sidebar />
-      <div className="flex min-w-0 flex-1 flex-col">
+      <div className="relative z-10 flex min-w-0 flex-1 flex-col">
         <Topbar onSearch={() => setSearch(true)} />
-        <main id="main-scroll" className="flex-1 overflow-y-auto">
-          <ErrorBoundary key={loc.pathname}>
-            <Suspense fallback={<PageFallback />}>
-              <Outlet />
-            </Suspense>
-          </ErrorBoundary>
+        <main id="main-scroll" className="flex-1 overflow-y-auto overflow-x-hidden">
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.div
+              key={loc.pathname}
+              initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              exit={{ opacity: 0, y: -8, filter: "blur(4px)" }}
+              transition={{ duration: 0.28, ease: [0.2, 0.7, 0.2, 1] }}
+            >
+              <ErrorBoundary key={loc.pathname}>
+                <Suspense fallback={<PageFallback />}>{outlet}</Suspense>
+              </ErrorBoundary>
+            </motion.div>
+          </AnimatePresence>
         </main>
       </div>
+      <MobileNav />
       <CommandPalette open={search} onClose={() => setSearch(false)} />
     </div>
   );

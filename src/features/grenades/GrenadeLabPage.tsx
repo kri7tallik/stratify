@@ -7,18 +7,14 @@ import { useContent } from "@/services/content";
 import { useAppStore } from "@/store/useAppStore";
 import { GrenadeCard } from "./GrenadeCard";
 import { GrenadeDetail } from "./GrenadeDetail";
-import { DIFF_LABEL } from "@/lib/labels";
+import { DIFFICULTIES, useLabels } from "@/lib/labels";
+import { useT } from "@/i18n";
+import { motion } from "framer-motion";
 import type { Difficulty, GrenadeType, MapId, Side } from "@/types/content";
 import { cn } from "@/lib/cn";
 
 type TypeFilter = "all" | GrenadeType;
-const TYPES: { value: TypeFilter; label: string }[] = [
-  { value: "all", label: "Все" },
-  { value: "smoke", label: "Smokes" },
-  { value: "flash", label: "Flashes" },
-  { value: "molotov", label: "Molotovs" },
-  { value: "he", label: "HE" },
-];
+const TYPES: TypeFilter[] = ["all", "smoke", "flash", "molotov", "he"];
 
 export function GrenadeLabPage() {
   const { grenades, maps } = useContent();
@@ -27,6 +23,8 @@ export function GrenadeLabPage() {
   const [params, setParams] = useSearchParams();
   const [more, setMore] = useState(false);
   const nav = useNavigate();
+  const t = useT();
+  const L = useLabels();
 
   const type = (params.get("type") as TypeFilter) || "all";
   const mapId = (params.get("map") as MapId | "all") || (params.get("id") ? "all" : lastMap);
@@ -68,44 +66,44 @@ export function GrenadeLabPage() {
 
   return (
     <Page className="max-w-[1600px]">
-      <PageHeader title="Гранаты" actions={<Button variant="ghost" onClick={() => nav("/library?add=grenade")}><Plus size={15} /> Добавить</Button>} />
+      <PageHeader kicker="Grenade Lab" title={t("nadesPage.title")} actions={<Button onClick={() => nav("/library?add=grenade")}><Plus size={15} /> {t("c.add")}</Button>} />
 
       <div className="mb-5 flex flex-wrap items-center gap-2">
         <Select value={mapId} onChange={(e) => set("map", e.target.value)} className="w-36">
-          <option value="all">Все карты</option>
+          <option value="all">{t("c.allMaps")}</option>
           {maps.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}
         </Select>
-        <Segmented value={side} onChange={(v) => set("side", v)} options={[{ value: "all", label: "T + CT" }, { value: "T", label: "T" }, { value: "CT", label: "CT" }]} />
+        <Segmented value={side} onChange={(v) => set("side", v)} options={[{ value: "all", label: t("c.bothSides") }, { value: "T", label: "T" }, { value: "CT", label: "CT" }]} />
         <Segmented
           value={type}
           onChange={(v) => set("type", v)}
-          options={TYPES.map((t) => ({ value: t.value, label: <>{t.value !== "all" && <span className="h-1.5 w-1.5 rounded-full" style={{ background: NADE_COLOR[t.value as GrenadeType] }} />}{t.label}</> }))}
+          options={TYPES.map((v) => ({ value: v, label: <>{v !== "all" && <span className="h-1.5 w-1.5 rotate-45" style={{ background: NADE_COLOR[v] }} />}{v === "all" ? t("c.all") : L.nades[v]}</> }))}
         />
         <Button variant="ghost" size="sm" onClick={() => setMore((x) => !x)} className={cn(extra > 0 && "text-accent")}>
-          <SlidersHorizontal size={14} /> Ещё{extra > 0 && ` · ${extra}`}
+          <SlidersHorizontal size={14} /> {t("c.more")}{extra > 0 && ` · ${extra}`}
         </Button>
       </div>
 
       {more && (
-        <div className="mb-5 grid grid-cols-2 gap-2 md:grid-cols-4">
+        <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="mb-5 grid grid-cols-2 gap-2 md:grid-cols-4">
           <Select value={position} disabled={!map} onChange={(e) => set("pos", e.target.value)}>
-            <option value="all">{map ? "Любая позиция" : "Позиция: выберите карту"}</option>
+            <option value="all">{map ? t("f.anyPosition") : t("f.pickMap")}</option>
             {map?.callouts.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
           </Select>
           <Select value={diff} onChange={(e) => set("diff", e.target.value)}>
-            <option value="all">Любая сложность</option>
-            {(Object.keys(DIFF_LABEL) as Difficulty[]).map((d) => <option key={d} value={d}>{DIFF_LABEL[d]}</option>)}
+            <option value="all">{t("f.anyDiff")}</option>
+            {DIFFICULTIES.map((d) => <option key={d} value={d}>{L.diff[d]}</option>)}
           </Select>
           <Select value={purpose} onChange={(e) => set("purpose", e.target.value)}>
-            <option value="all">Любое назначение</option>
-            {allTags.map((t) => <option key={t} value={t}>{t}</option>)}
+            <option value="all">{t("f.anyPurpose")}</option>
+            {allTags.map((x) => <option key={x} value={x}>{L.tag(x)}</option>)}
           </Select>
           <Select value={learnedF} onChange={(e) => set("learned", e.target.value)}>
-            <option value="all">Изученные и нет</option>
-            <option value="no">Не изученные</option>
-            <option value="yes">Изученные</option>
+            <option value="all">{t("f.learnedAll")}</option>
+            <option value="no">{t("f.learnedNo")}</option>
+            <option value="yes">{t("f.learnedYes")}</option>
           </Select>
-        </div>
+        </motion.div>
       )}
 
       <div className="grid grid-cols-12 gap-6">
@@ -125,7 +123,7 @@ export function GrenadeLabPage() {
         )}
         <div className={map ? "col-span-12 xl:col-span-7" : "col-span-12"}>
           {filtered.length === 0 ? (
-            <EmptyState title="Ничего не найдено" action={<Button size="sm" onClick={() => setParams({ map: String(mapId) }, { replace: true })}>Сбросить фильтры</Button>} />
+            <EmptyState title={t("c.nothingFound")} action={<Button size="sm" onClick={() => setParams({ map: String(mapId) }, { replace: true })}>{t("c.resetFilters")}</Button>} />
           ) : (
             <div className={map ? "grid grid-cols-1 gap-3 md:grid-cols-2" : "grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"}>
               {filtered.map((g) => <GrenadeCard key={g.id} g={g} showMap={!map} onOpen={() => set("id", g.id)} />)}
@@ -134,7 +132,7 @@ export function GrenadeLabPage() {
         </div>
       </div>
 
-      <Drawer open={!!opened} onClose={() => set("id", "")} title="Граната">
+      <Drawer open={!!opened} onClose={() => set("id", "")} title={t("nade.drawer")}>
         {opened && <GrenadeDetail g={opened} />}
       </Drawer>
     </Page>

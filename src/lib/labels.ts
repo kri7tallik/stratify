@@ -1,40 +1,44 @@
+import { useMemo } from "react";
 import type { Difficulty, ExerciseCategory, GrenadeType, TacticCategory, ThrowType, VerificationStatus, RoundType } from "@/types/content";
+import { useT, type UIKey } from "@/i18n";
 
-export const GRENADE_LABEL: Record<GrenadeType, string> = { smoke: "Smoke", flash: "Flashbang", molotov: "Molotov", he: "HE Grenade" };
-export const THROW_LABEL: Record<ThrowType, string> = {
-  "left-click": "Left click",
-  "right-click": "Right click",
-  "jump-throw": "Jump throw",
-  "run-jump-throw": "Run + jump throw",
-  "walk-throw": "Walk throw",
-  "crouch-throw": "Crouch throw",
-  unknown: "См. источник",
-};
-export const DIFF_LABEL: Record<Difficulty, string> = { easy: "Легко", medium: "Средне", hard: "Сложно" };
-export const TACTIC_LABEL: Record<TacticCategory, string> = {
-  execute: "Executes",
-  default: "Defaults",
-  split: "Splits",
-  fake: "Fakes",
-  retake: "Retakes",
-  pistol: "Pistol Rounds",
-  eco: "Eco Rounds",
-  force: "Force Buy",
-};
-export const EXERCISE_LABEL: Record<ExerciseCategory, string> = {
-  aim: "Aim",
-  spray: "Spray Control",
-  movement: "Movement",
-  "counter-strafe": "Counter-strafing",
-  prefire: "Prefire",
-  deathmatch: "Deathmatch",
-  utility: "Utility",
-  "game-sense": "Game Sense",
-  positioning: "Positioning",
-};
-export const STATUS_LABEL: Record<VerificationStatus, string> = {
-  verified: "Проверено",
-  partial: "Частично",
-  unverified: "Не проверено",
-};
-export const ROUND_LABEL: Record<RoundType, string> = { pistol: "Pistol", eco: "Eco", force: "Force", "full-buy": "Full buy", any: "Любой" };
+const GRENADE_TYPES: GrenadeType[] = ["smoke", "flash", "molotov", "he"];
+const THROWS: ThrowType[] = ["left-click", "right-click", "jump-throw", "run-jump-throw", "walk-throw", "crouch-throw", "unknown"];
+const DIFFS: Difficulty[] = ["easy", "medium", "hard"];
+const TCATS: TacticCategory[] = ["execute", "default", "split", "fake", "retake", "pistol", "eco", "force"];
+const ECATS: ExerciseCategory[] = ["aim", "spray", "movement", "counter-strafe", "prefire", "deathmatch", "utility", "game-sense", "positioning"];
+const STATUSES: VerificationStatus[] = ["verified", "partial", "unverified"];
+const ROUNDS: RoundType[] = ["pistol", "eco", "force", "full-buy", "any"];
+
+export const TACTIC_CATEGORIES = TCATS;
+export const EXERCISE_CATEGORIES = ECATS;
+export const DIFFICULTIES = DIFFS;
+export const THROW_TYPES = THROWS;
+export const GRENADE_TYPES_LIST = GRENADE_TYPES;
+export const STATUS_LIST = STATUSES;
+export const ROUND_TYPES = ROUNDS;
+
+/** Localized label maps, recomputed when the language changes. */
+export function useLabels() {
+  const t = useT();
+  return useMemo(() => {
+    const rec = <K extends string>(keys: K[], prefix: string) => Object.fromEntries(keys.map((k) => [k, t(`${prefix}${k}` as UIKey)])) as Record<K, string>;
+    return {
+      nade: rec(GRENADE_TYPES, "nade."),
+      nades: rec(GRENADE_TYPES, "nades."),
+      throw: rec(THROWS, "throw."),
+      diff: rec(DIFFS, "diff."),
+      tactic: rec(TCATS, "tcat."),
+      exercise: rec(ECATS, "ecat."),
+      status: rec(STATUSES, "status."),
+      round: rec(ROUNDS, "round."),
+      tag: (tag: string) => {
+        const key = `tag.${tag}` as UIKey;
+        const v = t(key);
+        return v === key ? tag : v;
+      },
+    };
+  }, [t]);
+}
+
+export type Labels = ReturnType<typeof useLabels>;
