@@ -429,7 +429,7 @@ function NavBtn({ side, label, onClick }: { side: "left" | "right"; label: strin
       aria-label={label}
       title={label}
       className={cn(
-        "chamfer chamfer-sm absolute top-1/2 z-10 grid h-14 w-11 -translate-y-1/2 place-items-center bg-black/55 text-white ring-1 ring-inset ring-white/15 backdrop-blur transition hover:bg-accent hover:text-black sm:h-16 sm:w-12",
+        "absolute top-1/2 z-10 grid h-12 w-12 rounded-full -translate-y-1/2 place-items-center bg-black/55 text-white ring-1 ring-inset ring-white/15 backdrop-blur transition hover:bg-accent hover:text-black sm:h-14 sm:w-14",
         side === "left" ? "left-2 sm:left-4" : "right-2 sm:right-4",
       )}
     >

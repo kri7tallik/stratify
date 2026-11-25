@@ -55,8 +55,8 @@ export function TacticsPage() {
             key={c}
             onClick={() => set("cat", c)}
             className={cn(
-              "chamfer chamfer-sm flex h-8 items-center gap-1.5 px-3 font-display text-[11px] font-semibold uppercase tracking-wider ring-1 ring-inset transition",
-              cat === c ? "bg-accent/15 text-white ring-accent/50" : "text-ink-muted ring-line hover:text-ink hover:ring-line-strong",
+              "flex h-8 items-center gap-1.5 rounded-full px-3.5 font-display text-[12.5px] font-medium ring-1 ring-inset transition",
+              cat === c ? "bg-ink text-bg ring-ink" : "text-ink-muted ring-line hover:text-ink hover:ring-line-strong",
             )}
           >
             {c === "all" ? tr("c.all") : L.tactic[c]}

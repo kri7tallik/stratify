@@ -52,7 +52,7 @@ export function MapDetailPage() {
       <div className="mb-5 flex items-center justify-between gap-4">
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" onClick={() => nav("/maps")} aria-label={t("c.back")}><ArrowLeft size={16} /></Button>
-          <h1 className="font-display text-3xl font-bold uppercase tracking-wider">{map.name}</h1>
+          <h1 className="font-hero text-4xl font-semibold tracking-[-0.03em] sm:text-5xl">{map.name}</h1>
           {map.activeDuty && <span className="tag-label hidden !text-accent sm:inline">{t("c.activeDuty")}</span>}
         </div>
         <Segmented
@@ -101,7 +101,7 @@ export function MapDetailPage() {
             <>
               {callout && (
                 <div className="mb-3 flex items-center justify-between text-[13px]">
-                  <span className="text-ink-muted">{t("maps.position")}: <span className="font-display font-semibold uppercase text-accent">{callout.name}</span></span>
+                  <span className="text-ink-muted">{t("maps.position")}: <span className="font-display font-semibold text-accent">{callout.name}</span></span>
                   <button onClick={() => setCallout(null)} className="text-ink-faint hover:text-accent">{t("c.reset")}</button>
                 </div>
               )}
@@ -127,7 +127,7 @@ export function MapDetailPage() {
               {positions.map((p) => (
                 <Card key={p.id} interactive inner="px-4 py-3" onClick={() => setCallout(map.callouts.find((c) => c.id === p.calloutId) ?? null)}>
                   <div className="flex items-center justify-between text-[13px]">
-                    <span className="font-display font-semibold uppercase tracking-wide">{p.name}</span>
+                    <span className="font-display font-semibold tracking-tight">{p.name}</span>
                     <span className="tag-label !text-[9px]">{p.role}</span>
                   </div>
                   <p className="mt-0.5 text-[12px] text-ink-muted">{p.description}</p>
@@ -136,7 +136,7 @@ export function MapDetailPage() {
               {routes.length > 0 && <div className="tag-label pt-4">{t("maps.routes")}</div>}
               {routes.map((r) => (
                 <Card key={r.id} interactive active={route === r.id} onClick={() => setRoute(route === r.id ? null : r.id)} inner="px-4 py-3">
-                  <div className={cn("font-display text-[13px] font-semibold uppercase tracking-wide", route === r.id && "text-accent")}>{r.name}</div>
+                  <div className={cn("font-display text-[14px] font-semibold tracking-tight", route === r.id && "text-accent")}>{r.name}</div>
                   <p className="mt-0.5 text-[12px] text-ink-muted">{r.description}</p>
                 </Card>
               ))}

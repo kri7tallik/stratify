@@ -9,18 +9,23 @@ export function Page({ children, className }: { children: ReactNode; className?:
 
 export function PageHeader({ title, description, actions, kicker }: { title: ReactNode; description?: ReactNode; actions?: ReactNode; kicker?: ReactNode }) {
   return (
-    <div className="mb-7 flex flex-wrap items-end justify-between gap-4">
+    <div className="mb-8 flex flex-wrap items-end justify-between gap-5 sm:mb-10">
       <div className="min-w-0">
-        {kicker && <div className="tag-label mb-2 flex items-center gap-2 !text-accent"><span className="stripes h-2.5 w-6" />{kicker}</div>}
+        {kicker && (
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full bg-bg-raised/80 py-1 pl-1.5 pr-3 font-mono text-[11px] uppercase tracking-[0.12em] text-ink-muted ring-1 ring-inset ring-line">
+            <span className="h-4 w-4 rounded-full bg-accent shadow-[0_0_0_4px_rgb(var(--accent)/.2)]" />
+            {kicker}
+          </div>
+        )}
         <motion.h1
-          initial={{ opacity: 0, x: -12 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.35, ease: [0.2, 0.7, 0.2, 1] }}
-          className="font-display text-3xl font-bold uppercase tracking-wide text-ink sm:text-[34px]"
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.45, ease: [0.2, 0.7, 0.2, 1] }}
+          className="font-hero text-[40px] font-semibold leading-[0.95] tracking-[-0.03em] text-ink sm:text-6xl lg:text-7xl"
         >
           {title}
         </motion.h1>
-        {description && <p className="mt-1.5 max-w-2xl text-[13px] text-ink-muted">{description}</p>}
+        {description && <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink-muted">{description}</p>}
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </div>
@@ -29,10 +34,10 @@ export function PageHeader({ title, description, actions, kicker }: { title: Rea
 
 export function SectionTitle({ children, action }: { children: ReactNode; action?: ReactNode }) {
   return (
-    <div className="mb-4 mt-10 flex items-center gap-3 first:mt-0">
-      <span className="h-3 w-1 bg-accent" />
-      <h2 className="font-display text-[13px] font-semibold uppercase tracking-[0.18em] text-ink">{children}</h2>
-      <span className="h-px flex-1 bg-gradient-to-r from-line-strong to-transparent" />
+    <div className="mb-5 mt-12 flex items-center gap-3 first:mt-0">
+      <span className="h-2.5 w-2.5 rounded-full bg-accent" />
+      <h2 className="font-display text-[20px] font-semibold tracking-tight text-ink">{children}</h2>
+      <span className="h-px flex-1 bg-line" />
       {action}
     </div>
   );

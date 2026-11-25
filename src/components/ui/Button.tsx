@@ -10,16 +10,15 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const variants: Record<Variant, string> = {
-  primary:
-    "shine chamfer chamfer-sm bg-gradient-to-r from-accent to-accent-amber text-black font-display font-semibold uppercase tracking-wider hover:brightness-110 shadow-[0_8px_30px_-10px_rgba(255,107,26,.7)]",
-  secondary: "chamfer chamfer-sm bg-bg-hover/80 text-ink ring-1 ring-inset ring-line-strong hover:ring-accent/50 hover:text-white hover:bg-bg-hover",
-  ghost: "rounded-md text-ink-muted hover:text-ink hover:bg-white/[0.04]",
-  danger: "chamfer chamfer-sm bg-bad/10 text-bad ring-1 ring-inset ring-bad/30 hover:bg-bad/20",
+  primary: "shine rounded-full bg-accent text-on-accent font-display font-semibold tracking-tight hover:bg-accent-soft shadow-[0_10px_30px_-12px_rgb(var(--accent)/.9)]",
+  secondary: "rounded-full bg-bg-raised text-ink font-medium ring-1 ring-inset ring-line hover:ring-ink/25 hover:bg-bg-hover",
+  ghost: "rounded-full text-ink-muted hover:text-ink hover:bg-ink/[0.05]",
+  danger: "rounded-full bg-bad/10 text-bad ring-1 ring-inset ring-bad/30 hover:bg-bad/20",
 };
 const sizes: Record<Size, string> = {
-  sm: "h-8 px-3 text-[12px] gap-1.5",
-  md: "h-10 px-4 text-[13px] gap-2",
-  lg: "h-12 px-6 text-[14px] gap-2.5",
+  sm: "h-8 px-3.5 text-[12px] gap-1.5",
+  md: "h-10 px-5 text-[13px] gap-2",
+  lg: "h-12 px-7 text-[14px] gap-2.5",
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({ variant = "secondary", size = "md", className, ...rest }, ref) => (

@@ -8,7 +8,7 @@ import { radarUrl } from "@/components/map/MapSchematic";
 import { useAppStore } from "@/store/useAppStore";
 import { useT } from "@/i18n";
 import { cn } from "@/lib/cn";
-import { useMapProgress } from "./MapCard";
+import { useMapProgress } from "./useMapProgress";
 
 /** Horizontal padding and gap of the shelf row (px) — must match the classes on the row. */
 const PAD = 4;
@@ -114,7 +114,7 @@ export function MapShelf({ maps }: { maps: CsMap[] }) {
         </div>
         {/* shelf board */}
         <div className="pointer-events-none absolute inset-x-0 bottom-6 h-px bg-gradient-to-r from-transparent via-line-strong to-transparent" />
-        <div className="pointer-events-none absolute inset-x-[10%] bottom-0 h-6 bg-[radial-gradient(ellipse_at_top,rgba(0,0,0,.6),transparent_70%)]" />
+        <div className="pointer-events-none absolute inset-x-[10%] bottom-0 h-6 bg-[radial-gradient(ellipse_at_top,rgb(var(--shadow)/.35),transparent_70%)]" />
       </div>
 
       <div className="mt-2 flex items-center justify-between gap-3">
@@ -162,7 +162,7 @@ function Ticker({ maps, active, onPick }: { maps: CsMap[]; active: number; onPic
             tabIndex={-1}
             onClick={() => onPick(i)}
             className={cn(
-              "font-display text-2xl font-bold uppercase tracking-wider transition-colors duration-300 sm:text-4xl",
+              "font-hero text-2xl font-semibold tracking-[-0.03em] transition-colors duration-300 sm:text-5xl",
               i === active ? "text-ink" : "text-ink-faint/40 hover:text-ink-muted",
             )}
           >
@@ -213,8 +213,9 @@ function Case({ map, index, active, sizes, reduce, onSelect, onSettled }: CasePr
           width: sizes.spine,
           transformOrigin: "right center",
           backfaceVisibility: "hidden",
-          background: `linear-gradient(90deg, ${map.accent}26, ${map.accent}14 40%, #0c1016 100%), linear-gradient(180deg, #141b24, #0a0e13)`,
-          boxShadow: `inset 2px 0 0 ${map.accent}88, inset -1px 0 0 rgba(255,255,255,.05)`,
+          background: `linear-gradient(90deg, ${map.accent}55, ${map.accent}22 45%, rgb(var(--bg-panel)) 100%), rgb(var(--bg-panel))`,
+          boxShadow: `inset 3px 0 0 ${map.accent}, inset -1px 0 0 rgb(var(--line)), inset 0 0 0 1px rgb(var(--line))`,
+          borderRadius: 14,
         }}
         initial={false}
         animate={{ rotateY: active ? -90 : 0, opacity: active ? 0 : 1, filter: active ? "brightness(.5)" : "brightness(1)" }}
@@ -222,20 +223,20 @@ function Case({ map, index, active, sizes, reduce, onSelect, onSettled }: CasePr
       >
         <span className="absolute left-1/2 top-3 -translate-x-1/2 font-mono text-[10px] text-ink-faint">{String(index + 1).padStart(2, "0")}</span>
         <span
-          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-display text-lg font-bold uppercase tracking-[0.18em] text-ink-muted transition-colors group-hover:text-ink sm:text-xl"
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 whitespace-nowrap font-hero text-lg font-semibold uppercase tracking-[0.08em] text-ink-muted transition-colors group-hover:text-ink sm:text-xl"
           style={{ writingMode: "vertical-rl", transform: "translate(-50%,-50%) rotate(180deg)" }}
         >
           {map.name}
         </span>
-        <span className="absolute bottom-10 left-1/2 h-8 w-[2px] -translate-x-1/2" style={{ background: map.activeDuty ? map.accent : "#2a3746" }} />
+        <span className="absolute bottom-10 left-1/2 h-8 w-[2px] -translate-x-1/2" style={{ background: map.activeDuty ? map.accent : "rgb(var(--line-strong))" }} />
         <span className={cn("absolute bottom-3 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45", map.activeDuty ? "bg-accent" : "bg-line-strong")} />
-        <span className="pointer-events-none absolute inset-0 bg-white/0 transition group-hover:bg-white/[0.04]" />
+        <span className="pointer-events-none absolute inset-0 rounded-[14px] bg-ink/0 transition group-hover:bg-ink/[0.04]" />
       </motion.button>
 
       {/* ── cover */}
       <motion.div
         aria-hidden={!active}
-        className="frame frame-hot chamfer chamfer-lg absolute inset-y-0 left-0"
+        className="frame frame-hot chamfer chamfer-lg absolute inset-y-0 left-0 shadow-float"
         style={{ width: sizes.cover, transformOrigin: "left center", backfaceVisibility: "hidden", pointerEvents: active ? "auto" : "none" }}
         initial={false}
         animate={{ rotateY: active ? 0 : 90, opacity: active ? 1 : 0 }}
@@ -243,20 +244,20 @@ function Case({ map, index, active, sizes, reduce, onSelect, onSettled }: CasePr
       >
         <div className="chamfer chamfer-lg relative flex h-full flex-col overflow-hidden bg-bg-raised">
           {/* radar art */}
-          <button type="button" onClick={open} tabIndex={active ? 0 : -1} className="group relative min-h-0 flex-1 overflow-hidden text-left" aria-label={`${t("maps.open")}: ${map.name}`}>
-            <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 50% 45%, ${map.accent}33, #07090c 70%)` }} />
+          <button type="button" onClick={open} tabIndex={active ? 0 : -1} className="group relative m-2 mb-0 min-h-0 flex-1 overflow-hidden rounded-[22px] text-left text-white" aria-label={`${t("maps.open")}: ${map.name}`}>
+            <div className="absolute inset-0" style={{ background: `radial-gradient(circle at 50% 45%, ${map.accent}40, #08090a 72%)` }} />
             <img src={radarUrl(map.id)} alt="" draggable={false} className="absolute inset-0 h-full w-full scale-[1.08] object-contain opacity-80 transition duration-700 group-hover:rotate-[-2deg] group-hover:scale-[1.14] group-hover:opacity-100" />
             {!reduce && (
-              <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[150%] -translate-x-1/2 -translate-y-1/2 animate-sweep rounded-full bg-[conic-gradient(from_0deg,rgba(255,107,26,0.18),transparent_12%,transparent)] [mask-image:radial-gradient(circle,#000_30%,transparent_66%)]" />
+              <div className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[150%] -translate-x-1/2 -translate-y-1/2 animate-sweep rounded-full bg-[conic-gradient(from_0deg,rgb(var(--accent)/.28),transparent_12%,transparent)] [mask-image:radial-gradient(circle,#000_30%,transparent_66%)]" />
             )}
-            <div className="absolute left-4 right-4 top-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-ink-faint">
+            <div className="absolute left-4 right-4 top-4 flex items-center justify-between font-mono text-[10px] uppercase tracking-widest text-white/55">
               <span>{map.codename}</span>
               <span>{String(index + 1).padStart(2, "0")}</span>
             </div>
-            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-bg-raised via-bg-raised/80 to-transparent px-5 pb-3 pt-16">
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent px-5 pb-4 pt-16">
               <div className="flex items-end justify-between gap-3">
-                <span className="font-display text-3xl font-bold uppercase leading-none tracking-wider sm:text-4xl">{map.name}</span>
-                <span className={cn("tag-label !text-[9px]", map.activeDuty && "!text-accent")}>{map.activeDuty ? t("c.activeDuty") : t("c.reserve")}</span>
+                <span className="font-hero text-3xl font-semibold leading-none tracking-[-0.03em] sm:text-4xl">{map.name}</span>
+                <span className={cn("rounded-full px-2 py-0.5 font-mono text-[9px] uppercase tracking-wider", map.activeDuty ? "bg-accent text-on-accent" : "bg-white/10 text-white/70")}>{map.activeDuty ? t("c.activeDuty") : t("c.reserve")}</span>
               </div>
             </div>
           </button>
@@ -273,7 +274,7 @@ function Case({ map, index, active, sizes, reduce, onSelect, onSettled }: CasePr
               type="button"
               onClick={open}
               tabIndex={active ? 0 : -1}
-              className="chamfer chamfer-sm shine flex w-full items-center justify-center gap-2 bg-accent py-2.5 font-display text-[12px] font-bold uppercase tracking-wider text-black transition hover:bg-accent-soft"
+              className="shine flex w-full items-center justify-center gap-2 rounded-full bg-accent py-3 font-display text-[13px] font-semibold text-on-accent transition hover:bg-accent-soft"
             >
               {t("maps.open")} <ArrowRight size={15} />
             </button>
@@ -292,7 +293,7 @@ function NavBtn({ children, label, disabled, onClick }: { children: ReactNode; l
       disabled={disabled}
       aria-label={label}
       title={label}
-      className="chamfer chamfer-sm grid h-9 w-9 place-items-center bg-bg-panel text-ink-muted ring-1 ring-inset ring-line transition hover:bg-accent hover:text-black disabled:pointer-events-none disabled:opacity-30"
+      className="grid h-10 w-10 place-items-center rounded-full bg-bg-raised text-ink-muted ring-1 ring-inset ring-line transition hover:bg-ink hover:text-bg disabled:pointer-events-none disabled:opacity-30"
     >
       {children}
     </button>

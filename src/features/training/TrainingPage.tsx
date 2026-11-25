@@ -70,7 +70,7 @@ export function TrainingPage() {
         <Card className="mt-4" inner="overflow-hidden">
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-line p-5">
             <div>
-              <div className="font-display text-xl font-bold uppercase tracking-wide">{program.name}</div>
+              <div className="font-display text-xl font-semibold tracking-tight">{program.name}</div>
               <p className="text-[13px] text-ink-muted">{program.description}</p>
               <p className="mt-1 font-mono text-[12px] text-ink-faint">{t("train.exCount", { n: progEx.length, m: plannedMin })}</p>
             </div>
@@ -79,7 +79,7 @@ export function TrainingPage() {
           <ol className="divide-y divide-line">
             {progEx.map((e, i) => (
               <li key={e.id}>
-                <button onClick={() => setParam("exercise", e.id)} className="flex w-full items-center gap-4 px-5 py-3 text-left transition hover:bg-white/[0.02]">
+                <button onClick={() => setParam("exercise", e.id)} className="flex w-full items-center gap-4 px-5 py-3 text-left transition hover:bg-ink/[0.02]">
                   <span className="w-5 text-center font-mono text-[12px] text-ink-faint">{i + 1}</span>
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-[13px] font-medium">{e.name}</div>
@@ -99,7 +99,7 @@ export function TrainingPage() {
         {(["all", ...CATS] as const).map((c) => {
           const n = c === "all" ? exercises.length : exercises.filter((e) => e.category === c).length;
           return (
-            <button key={c} onClick={() => setCat(c)} className={cn("chamfer chamfer-sm h-8 px-3 font-display text-[11px] font-semibold uppercase tracking-wider ring-1 ring-inset transition", cat === c ? "bg-accent/15 text-white ring-accent/50" : "text-ink-muted ring-line hover:text-ink hover:ring-line-strong")}>
+            <button key={c} onClick={() => setCat(c)} className={cn("h-8 rounded-full px-3.5 font-display text-[12.5px] font-medium ring-1 ring-inset transition", cat === c ? "bg-ink text-bg ring-ink" : "text-ink-muted ring-line hover:text-ink hover:ring-line-strong")}>
               {c === "all" ? t("c.all") : L.exercise[c]} <span className={cn("font-mono text-[10px]", cat === c ? "text-accent" : "text-ink-faint")}>{n}</span>
             </button>
           );

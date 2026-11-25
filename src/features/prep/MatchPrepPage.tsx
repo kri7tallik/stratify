@@ -26,7 +26,7 @@ function NadeChecklist({ side, nades }: { side: Side; nades: Grenade[] }) {
       <div className="flex items-center justify-between px-5 pt-4">
         <div className="flex items-center gap-2">
           <SideBadge side={side} />
-          <span className="font-display text-[13px] font-semibold uppercase tracking-[0.12em]">{t("nav.grenades")}</span>
+          <span className="font-display text-[16px] font-semibold tracking-tight">{t("nav.grenades")}</span>
         </div>
         <span className="font-mono text-[12px] tabular-nums text-accent">{done}/{nades.length}</span>
       </div>
@@ -87,7 +87,7 @@ export function MatchPrepPage() {
           <button
             key={m.id}
             onClick={() => pick(m.id)}
-            className={cn("chamfer chamfer-sm group relative flex h-10 items-center gap-2 overflow-hidden pl-1.5 pr-4 font-display text-[12px] font-semibold uppercase tracking-wider ring-1 ring-inset transition", m.id === map.id ? "bg-accent/15 text-white ring-accent/60" : "text-ink-muted ring-line hover:text-ink hover:ring-line-strong")}
+            className={cn("group relative flex h-10 items-center gap-2 overflow-hidden rounded-full pl-1.5 pr-4 font-display text-[13px] font-medium ring-1 ring-inset transition", m.id === map.id ? "bg-accent/15 text-white ring-accent/60" : "text-ink-muted ring-line hover:text-ink hover:ring-line-strong")}
           >
             <img src={radarUrl(m.id)} alt="" className={cn("h-7 w-7 object-contain transition", m.id === map.id ? "opacity-100" : "opacity-50 group-hover:opacity-90")} />
             {m.name}
@@ -118,7 +118,7 @@ export function MatchPrepPage() {
         <div className="col-span-12 md:col-span-6 lg:col-span-4"><NadeChecklist side="CT" nades={ctNades} /></div>
 
         <div className="col-span-12">
-          <div className="mb-3 mt-2 flex items-center gap-2 font-display text-[13px] font-semibold uppercase tracking-[0.14em]"><Swords size={14} className="text-accent" /> {t("prep.tactics")}</div>
+          <div className="mb-3 mt-2 flex items-center gap-2 font-display text-[16px] font-semibold tracking-tight"><Swords size={14} className="text-accent" /> {t("prep.tactics")}</div>
           {mapTactics.length === 0 ? (
             <EmptyState icon={<Bomb size={18} />} title={t("prep.noTactics", { map: map.name })} text={t("tactics.emptyHint")} action={<Button size="sm" onClick={() => nav("/library?add=tactic")}>{t("c.add")}</Button>} />
           ) : (

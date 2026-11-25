@@ -9,7 +9,7 @@ export function LangSwitch({ className }: { className?: string }) {
   const setLang = useAppStore((s) => s.setLang);
   const id = useId();
   return (
-    <div className={cn("chamfer chamfer-sm flex bg-black/40 p-0.5 ring-1 ring-inset ring-line", className)} role="radiogroup">
+    <div className={cn("flex rounded-full bg-sunken p-1 ring-1 ring-inset ring-line", className)} role="radiogroup">
       {LANGS.map((l) => (
         <button
           key={l.id}
@@ -17,9 +17,9 @@ export function LangSwitch({ className }: { className?: string }) {
           aria-checked={lang === l.id}
           title={l.label}
           onClick={() => setLang(l.id)}
-          className={cn("relative h-7 flex-1 px-2.5 font-display text-[11px] font-bold tracking-wider transition-colors", lang === l.id ? "text-black" : "text-ink-faint hover:text-ink")}
+          className={cn("relative h-7 flex-1 rounded-full px-3 font-mono text-[11px] font-medium transition-colors", lang === l.id ? "text-bg" : "text-ink-faint hover:text-ink")}
         >
-          {lang === l.id && <motion.span layoutId={`lang-${id}`} className="chamfer chamfer-sm absolute inset-0 bg-gradient-to-r from-accent to-accent-amber" transition={{ type: "spring", stiffness: 500, damping: 36 }} />}
+          {lang === l.id && <motion.span layoutId={`lang-${id}`} className="absolute inset-0 rounded-full bg-ink" transition={{ type: "spring", stiffness: 500, damping: 36 }} />}
           <span className="relative">{l.short}</span>
         </button>
       ))}

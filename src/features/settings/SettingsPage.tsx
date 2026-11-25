@@ -7,6 +7,9 @@ import { useAppStore, progressSnapshot } from "@/store/useAppStore";
 import { useContent } from "@/services/content";
 import { fmtDate } from "@/lib/format";
 import { LANGS, useLang, useT } from "@/i18n";
+import { Monitor, Moon, Sun } from "lucide-react";
+import { switchTheme } from "@/lib/theme";
+import type { ThemePref } from "@/store/useAppStore";
 import { cn } from "@/lib/cn";
 
 function useSession() {
@@ -66,14 +69,16 @@ export function SettingsPage() {
               key={l.id}
               onClick={() => setLang(l.id)}
               data-active={lang === l.id ? "true" : undefined}
-              className={cn("hud chamfer chamfer-sm flex items-center gap-3 px-4 py-3 text-left ring-1 ring-inset transition", lang === l.id ? "bg-accent/15 ring-accent/60" : "bg-black/25 ring-line hover:ring-line-strong")}
+              className={cn("flex items-center gap-3 rounded-2xl px-4 py-3 text-left ring-1 ring-inset transition", lang === l.id ? "bg-ink text-bg ring-ink" : "bg-sunken ring-line hover:ring-line-strong")}
             >
-              <span className={cn("font-display text-xl font-bold", lang === l.id ? "text-accent" : "text-ink-faint")}>{l.short}</span>
+              <span className={cn("font-hero text-xl font-semibold", lang === l.id ? "text-bg" : "text-ink-faint")}>{l.short}</span>
               <span className="text-[13px] font-medium">{l.label}</span>
             </button>
           ))}
         </div>
       </Card>
+
+      <ThemeCard />
 
       <Card className="mb-4">
         <CardHeader title={t("set.profile")} />
@@ -135,7 +140,7 @@ export function SettingsPage() {
               )
             ) : (
               <>
-                <div className="chamfer chamfer-sm flex items-center justify-between bg-black/30 p-3 text-[13px] ring-1 ring-inset ring-line">
+                <div className="chamfer chamfer-sm flex items-center justify-between bg-sunken p-3 text-[13px] ring-1 ring-inset ring-line">
                   <span>{t("set.signedAs", { email: session.user.email ?? "" })}</span>
                   <Button size="sm" variant="ghost" onClick={() => void sb.auth.signOut()}><LogOut size={14} /> {t("set.signOut")}</Button>
                 </div>
@@ -171,5 +176,33 @@ export function SettingsPage() {
         </Card>
       )}
     </Page>
+  );
+}
+
+const THEMES: { id: ThemePref; icon: typeof Sun; key: "theme.light" | "theme.dark" | "theme.system" }[] = [
+  { id: "light", icon: Sun, key: "theme.light" },
+  { id: "dark", icon: Moon, key: "theme.dark" },
+  { id: "system", icon: Monitor, key: "theme.system" },
+];
+
+function ThemeCard() {
+  const t = useT();
+  const theme = useAppStore((s) => s.theme);
+  return (
+    <Card className="mb-4">
+      <CardHeader title={t("theme.title")} />
+      <div className="grid grid-cols-1 gap-2 p-5 sm:grid-cols-3">
+        {THEMES.map(({ id, icon: Icon, key }) => (
+          <button
+            key={id}
+            onClick={() => switchTheme(id)}
+            className={cn("flex items-center gap-3 rounded-2xl px-4 py-3 text-left ring-1 ring-inset transition", theme === id ? "bg-ink text-bg ring-ink" : "bg-sunken ring-line hover:ring-line-strong")}
+          >
+            <Icon size={18} />
+            <span className="text-[13px] font-medium">{t(key)}</span>
+          </button>
+        ))}
+      </div>
+    </Card>
   );
 }

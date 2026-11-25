@@ -42,7 +42,7 @@ export function GrenadeDetail({ g }: { g: Grenade }) {
           <div className="flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[0.16em] text-ink-faint">
             <NadeDot type={g.type} /> {L.nade[g.type]} · {map.name} <SideBadge side={g.side} />
           </div>
-          <h2 className="mt-2 font-display text-2xl font-bold uppercase leading-tight tracking-wide">{g.title}</h2>
+          <h2 className="mt-2 font-hero text-[26px] font-semibold leading-tight tracking-tight">{g.title}</h2>
           <p className="mt-1 text-[13px] text-ink-muted">{g.purpose}</p>
         </div>
         <FavoriteButton refItem={{ kind: "grenade", id: g.id }} />
@@ -68,7 +68,7 @@ export function GrenadeDetail({ g }: { g: Grenade }) {
           </div>
         </div>
       ) : (
-        <p className="chamfer bg-black/30 p-3 text-[12px] text-ink-faint ring-1 ring-inset ring-line">{t("nade.noShots")}</p>
+        <p className="chamfer bg-sunken p-3 text-[12px] text-ink-faint ring-1 ring-inset ring-line">{t("nade.noShots")}</p>
       )}
       <LineupLightbox images={shots} index={shot} onIndex={setShot} onClose={() => setShot(null)} title={g.title} sourceUrl={sourceUrl} />
 
@@ -83,7 +83,7 @@ export function GrenadeDetail({ g }: { g: Grenade }) {
         </Button>
       )}
 
-      <dl className="chamfer grid grid-cols-[120px_1fr] gap-x-3 gap-y-2.5 bg-black/30 p-4 text-[13px] ring-1 ring-inset ring-line">
+      <dl className="chamfer grid grid-cols-[120px_1fr] gap-x-3 gap-y-2.5 bg-sunken p-4 text-[13px] ring-1 ring-inset ring-line">
         <dt className="tag-label !text-[10px] pt-0.5">{t("nade.where")}</dt>
         <dd>{g.position}</dd>
         <dt className="tag-label !text-[10px] pt-0.5">{t("nade.aim")}</dt>

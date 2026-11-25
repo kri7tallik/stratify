@@ -1,16 +1,16 @@
 import { Suspense, useEffect, useState } from "react";
 import { useLocation, useOutlet } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-import { MobileNav, Sidebar } from "./Sidebar";
-import { Topbar } from "./Topbar";
+import { Header, MobileDock } from "./Header";
 import { CommandPalette } from "./CommandPalette";
 import { useAppStore } from "@/store/useAppStore";
 import { ErrorBoundary, Skeleton } from "@/components/ui";
 import { LOCALE } from "@/i18n";
+import { useApplyTheme } from "@/lib/theme";
 
 function PageFallback() {
   return (
-    <div className="mx-auto w-full max-w-[1440px] space-y-4 px-8 pt-6">
+    <div className="mx-auto w-full max-w-[1440px] space-y-4 px-4 pt-2 sm:px-8">
       <Skeleton className="h-9 w-72" />
       <div className="grid grid-cols-3 gap-4 pt-4">
         <Skeleton className="h-48" />
@@ -46,6 +46,7 @@ export function AppShell() {
   const outlet = useOutlet();
   const lang = useAppStore((s) => s.lang);
   useSessionTicker();
+  useApplyTheme();
 
   useEffect(() => {
     document.documentElement.lang = LOCALE[lang].slice(0, 2);
@@ -67,12 +68,12 @@ export function AppShell() {
   }, [loc.pathname]);
 
   return (
-    <div className="grain relative flex h-screen w-screen overflow-hidden bg-bg text-ink">
+    <div className="grain relative h-screen w-screen overflow-hidden bg-bg text-ink">
       <div className="backdrop" />
-      <Sidebar />
-      <div className="relative z-10 flex min-w-0 flex-1 flex-col">
-        <Topbar onSearch={() => setSearch(true)} />
-        <main id="main-scroll" className="flex-1 overflow-y-auto overflow-x-hidden">
+      <div className="dots" />
+      <Header onSearch={() => setSearch(true)} />
+      <div className="relative h-full">
+        <main id="main-scroll" className="h-full overflow-y-auto overflow-x-hidden pt-[5.5rem] sm:pt-24">
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={loc.pathname}
@@ -88,7 +89,7 @@ export function AppShell() {
           </AnimatePresence>
         </main>
       </div>
-      <MobileNav />
+      <MobileDock />
       <CommandPalette open={search} onClose={() => setSearch(false)} />
     </div>
   );

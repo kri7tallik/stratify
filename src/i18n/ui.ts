@@ -16,6 +16,14 @@ export const UI = {
   "nav.sources": e("Джерела", "Источники", "Sources"),
   "nav.settings": e("Налаштування", "Настройки", "Settings"),
   "nav.tagline": e("Тактичний компаньйон CS2", "Тактический компаньон CS2", "CS2 tactical companion"),
+  "nav.more": e("Ще", "Ещё", "More"),
+  "nav.menu": e("Меню", "Меню", "Menu"),
+  "theme.title": e("Тема", "Тема", "Theme"),
+  "theme.light": e("Світла", "Светлая", "Light"),
+  "theme.dark": e("Темна", "Тёмная", "Dark"),
+  "theme.system": e("Як у системі", "Как в системе", "System"),
+  "theme.toDark": e("Увімкнути темну тему", "Включить тёмную тему", "Switch to dark theme"),
+  "theme.toLight": e("Увімкнути світлу тему", "Включить светлую тему", "Switch to light theme"),
 
   // ── common
   "c.search": e("Пошук", "Поиск", "Search"),

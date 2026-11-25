@@ -69,7 +69,7 @@ export function CommandPalette({ open, onClose }: { open: boolean; onClose(): vo
   return (
     <AnimatePresence>
       {open && (
-        <motion.div className="fixed inset-0 z-[60] flex justify-center bg-black/70 px-4 pt-[12vh] backdrop-blur-sm" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onMouseDown={onClose}>
+        <motion.div className="fixed inset-0 z-[60] flex justify-center bg-black/45 px-4 pt-[12vh] backdrop-blur-[3px]" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onMouseDown={onClose}>
           <motion.div
             onMouseDown={(e) => e.stopPropagation()}
             initial={{ y: -8, scale: 0.98 }}

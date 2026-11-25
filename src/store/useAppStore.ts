@@ -35,8 +35,12 @@ export interface UserContent {
   timings: Partial<Record<MapId, MapTiming[]>>;
 }
 
+export type ThemePref = "light" | "dark" | "system";
+
 interface State {
   lang: Lang;
+  /** Colour theme; "system" follows prefers-color-scheme. */
+  theme: ThemePref;
   playerName: string;
   lastMapId: MapId;
   learnedGrenades: Record<string, string>;
@@ -52,6 +56,7 @@ interface State {
 
 interface Actions {
   setLang(lang: Lang): void;
+  setTheme(theme: ThemePref): void;
   setPlayerName(name: string): void;
   setLastMap(id: MapId): void;
   toggleLearnedGrenade(id: string): void;
@@ -92,6 +97,7 @@ const toggleRecord = (rec: Record<string, string>, id: string) => {
 
 const initial: State = {
   lang: detectLang(),
+  theme: "system",
   playerName: "",
   lastMapId: "mirage",
   learnedGrenades: {},
@@ -109,6 +115,7 @@ export const useAppStore = create<State & Actions>()(
     (set, get) => ({
       ...initial,
       setLang: (lang) => set({ lang }),
+      setTheme: (theme) => set({ theme }),
       setPlayerName: (playerName) => set({ playerName }),
       setLastMap: (lastMapId) => set({ lastMapId }),
       toggleLearnedGrenade: (id) => set((s) => ({ learnedGrenades: toggleRecord(s.learnedGrenades, id) })),

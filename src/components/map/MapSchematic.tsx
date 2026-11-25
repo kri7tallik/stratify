@@ -43,7 +43,7 @@ export function MapSchematic({
   map,
   highlight = [],
   routePath,
-  routeColor = "#ff6a1a",
+  routeColor = "#c6f432",
   trajectories = [],
   selectedCallout,
   onCalloutClick,
@@ -59,10 +59,10 @@ export function MapSchematic({
   const routePts = (routePath ?? []).map((id) => byId[id]).filter(Boolean);
 
   return (
-    <div className={cn("chamfer chamfer-lg relative overflow-hidden bg-[radial-gradient(circle_at_50%_50%,#121a24,#07090c_70%)] ring-1 ring-inset ring-line", className)}>
+    <div className={cn("chamfer chamfer-lg relative overflow-hidden screen ring-1 ring-inset ring-white/10", className)}>
       {sweep && (
         <div className="pointer-events-none absolute inset-0 overflow-hidden">
-          <div className="absolute left-1/2 top-1/2 aspect-square w-[150%] -translate-x-1/2 -translate-y-1/2 animate-sweep rounded-full bg-[conic-gradient(from_0deg,rgba(255,107,26,0.13),transparent_10%,transparent)] [mask-image:radial-gradient(circle,#000_35%,transparent_68%)]" />
+          <div className="absolute left-1/2 top-1/2 aspect-square w-[150%] -translate-x-1/2 -translate-y-1/2 animate-sweep rounded-full bg-[conic-gradient(from_0deg,rgb(var(--accent)/.16),transparent_10%,transparent)] [mask-image:radial-gradient(circle,#000_35%,transparent_68%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(circle,transparent_55%,rgba(7,9,12,.85))]" />
         </div>
       )}
@@ -122,10 +122,10 @@ export function MapSchematic({
                 onMouseLeave={() => setHover((h) => (h === c.id ? null : h))}
               >
                 <circle cx={c.x} cy={c.y} r={3} fill="transparent" />
-                {on && <motion.circle cx={c.x} cy={c.y} r={2.6} fill="#ff6a1a" initial={{ opacity: 0 }} animate={{ opacity: [0.35, 0.1, 0.35] }} transition={{ repeat: Infinity, duration: 1.8 }} />}
-                <circle cx={c.x} cy={c.y} r={on ? 1.1 : 0.7} fill={on ? "#ff6a1a" : "#ffffff"} fillOpacity={on ? 1 : 0.55} stroke="#0d0e11" strokeWidth={0.3} />
+                {on && <motion.circle cx={c.x} cy={c.y} r={2.6} fill="#c6f432" initial={{ opacity: 0 }} animate={{ opacity: [0.35, 0.1, 0.35] }} transition={{ repeat: Infinity, duration: 1.8 }} />}
+                <circle cx={c.x} cy={c.y} r={on ? 1.1 : 0.7} fill={on ? "#c6f432" : "#ffffff"} fillOpacity={on ? 1 : 0.55} stroke="#0d0e11" strokeWidth={0.3} />
                 {show && (
-                  <text x={c.x} y={c.y - 2} textAnchor="middle" fontSize="2.3" fontWeight={700} fill="#fff" style={{ paintOrder: "stroke", stroke: "#07090c", strokeWidth: 0.9, fontFamily: "Tektur, sans-serif", letterSpacing: "0.04em" }}>
+                  <text x={c.x} y={c.y - 2} textAnchor="middle" fontSize="2.3" fontWeight={700} fill="#fff" style={{ paintOrder: "stroke", stroke: "#07090c", strokeWidth: 0.9, fontFamily: "Inter Tight Variable, Inter Variable, sans-serif", letterSpacing: "0.04em" }}>
                     {c.name}
                   </text>
                 )}

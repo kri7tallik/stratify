@@ -60,7 +60,7 @@ function SourceFields({ draft }: { draft: ReturnType<typeof useSourceDraft> }) {
   const t = useT();
   const L = useLabels();
   return (
-    <fieldset className="chamfer space-y-3 bg-black/25 p-4 ring-1 ring-inset ring-accent/25">
+    <fieldset className="chamfer space-y-3 bg-sunken p-4 ring-1 ring-inset ring-accent/25">
       <legend className="tag-label px-1 !text-accent">{t("form.src.legend")}</legend>
       <Field label={t("form.src.source")}>
         <Select value={d.sourceId} onChange={(e) => setD({ ...d, sourceId: e.target.value })}>

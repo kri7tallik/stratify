@@ -27,11 +27,11 @@ export function SessionPage() {
         <motion.div initial={{ scale: 0.96, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}>
           <Card active inner="p-8 text-center">
             <div className="mx-auto grid h-14 w-14 place-items-center chamfer bg-accent/10 text-accent ring-1 ring-inset ring-accent/30"><Trophy size={26} /></div>
-            <h1 className="mt-4 font-display text-3xl font-bold uppercase tracking-wide text-gradient">{t("ses.doneTitle")}</h1>
+            <h1 className="mt-4 font-hero text-4xl font-semibold tracking-tight text-gradient">{t("ses.doneTitle")}</h1>
             <p className="mt-1 text-ink-muted">{finished.name}</p>
             <div className="mt-6 grid grid-cols-2 gap-3">
-              <div className="chamfer bg-black/30 p-4 ring-1 ring-inset ring-line"><div className="font-display text-2xl font-bold">{fmtDuration(finished.seconds, lang)}</div><div className="tag-label !text-[10px]">{t("ses.time")}</div></div>
-              <div className="chamfer bg-black/30 p-4 ring-1 ring-inset ring-line"><div className="font-display text-2xl font-bold">{finished.completedExerciseIds.length}/{finished.totalExercises}</div><div className="tag-label !text-[10px]">{t("ses.exercises")}</div></div>
+              <div className="chamfer bg-sunken p-4 ring-1 ring-inset ring-line"><div className="font-display text-2xl font-bold">{fmtDuration(finished.seconds, lang)}</div><div className="tag-label !text-[10px]">{t("ses.time")}</div></div>
+              <div className="chamfer bg-sunken p-4 ring-1 ring-inset ring-line"><div className="font-display text-2xl font-bold">{finished.completedExerciseIds.length}/{finished.totalExercises}</div><div className="tag-label !text-[10px]">{t("ses.exercises")}</div></div>
             </div>
             <div className="mt-6 flex justify-center gap-2">
               <Button onClick={() => nav("/progress")}>{t("nav.progress")}</Button>
@@ -78,7 +78,7 @@ export function SessionPage() {
       <div className="mb-5 flex items-center justify-between">
         <div>
           <p className="tag-label flex items-center gap-2 !text-accent"><span className="h-1.5 w-1.5 animate-flicker bg-accent" />{t("ses.header", { n: program.minutes })}</p>
-          <h1 className="font-display text-[30px] font-bold uppercase tracking-wide">{program.name}</h1>
+          <h1 className="font-hero text-[34px] font-semibold tracking-[-0.03em]">{program.name}</h1>
         </div>
         <div className="flex gap-2">
           <Button variant="ghost" onClick={() => setConfirmCancel(true)}><X size={15} /> {t("c.cancel")}</Button>
@@ -99,7 +99,7 @@ export function SessionPage() {
                 <p className="mt-1 text-ink-muted">{cur.goal}</p>
 
                 <div className="my-8 text-center">
-                  <div className={cn("font-display text-[72px] font-bold leading-none tabular-nums tracking-tight sm:text-[96px]", remaining < 0 ? "text-ok" : "text-white [text-shadow:0_0_40px_rgba(255,107,26,.35)]")}>
+                  <div className={cn("font-hero text-[72px] font-semibold leading-none tabular-nums tracking-tight sm:text-[104px]", remaining < 0 ? "text-ok" : "text-ink")}>
                     {remaining >= 0 ? fmtClock(remaining) : `+${fmtClock(-remaining)}`}
                   </div>
                   <div className="mt-2 text-[12px] uppercase tracking-[0.14em] text-ink-faint">{remaining >= 0 ? t("ses.left", { m: cur.minutes, reps: cur.reps }) : t("ses.timeUp")}</div>
@@ -109,7 +109,7 @@ export function SessionPage() {
                 <ol className="space-y-2" data-selectable>
                   {cur.instructions.map((x, i) => (
                     <li key={i} className="flex gap-3 text-sm">
-                      <span className="chamfer chamfer-sm grid h-6 w-6 shrink-0 place-items-center bg-white/[0.06] font-display text-[11px] font-bold text-ink-muted">{i + 1}</span>
+                      <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-ink/[0.06] font-display text-[11px] font-bold text-ink-muted">{i + 1}</span>
                       <span className="break-words">{x}</span>
                     </li>
                   ))}
@@ -149,7 +149,7 @@ export function SessionPage() {
               {list.map((e, i) => {
                 const done = a.completed.includes(e.id);
                 return (
-                  <li key={e.id} className={cn("flex items-center gap-2 px-3", i === idx && "bg-accent/[0.08] shadow-[inset_3px_0_0_#ff6b1a]")}>
+                  <li key={e.id} className={cn("flex items-center gap-2 px-3", i === idx && "bg-accent/[0.08] shadow-[inset_3px_0_0_rgb(var(--accent))]")}>
                     <button onClick={() => s.toggleExerciseDone(e.id)} className="grid h-9 w-8 place-items-center" aria-label={t("c.markLearned")}>
                       {done ? <CheckCircle2 size={17} className="text-ok" /> : <Circle size={17} className="text-ink-faint" />}
                     </button>

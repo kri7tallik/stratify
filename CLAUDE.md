@@ -36,8 +36,14 @@ Before every commit: `npx tsc -b && npm run validate && npm run build`.
 - When adding or changing content, add translations for both `ru` and `uk` overlays. English is the base text in `src/data`.
 - Callout names stay in English (as in-game). In RU/UK, the owner prefers the slang names: Смок, Флешка, Молотов (Молик), HE.
 
-## Design
-CS HUD style. Fonts: Tektur (display), Inter Variable (body), JetBrains Mono (numbers). Dark palette with orange accent `#ff6b1a` / amber `#ffb22e`; T side `#e8b04a`, CT side `#5b9cf5`. Utilities in `src/styles/index.css`: `.chamfer`, `.frame`/`.frame-hot`, `.surface`, `.hud` (corner brackets), `.shine`, `.tag-label`, `.stripes`, `.text-gradient`, `.backdrop`, `.grain`. Respect `prefers-reduced-motion`.
+## Design (redesign, Nov 2026)
+Modern "island" layout with **light and dark themes**.
+- Themes: tokens are CSS variables (`"R G B"`) in `src/styles/index.css` under `:root[data-theme="light"|"dark"]`; Tailwind colours read them (`bg-bg`, `bg-bg-raised`, `bg-sunken`, `text-ink(-muted|-faint)`, `ring-line`, `accent`, `on-accent`, `tside`, `ctside`, `ok/warn/bad`). Never hard-code `#hex`, `bg-black/x` or `text-white` for UI chrome — use tokens (`bg-ink/[0.05]` for subtle fills). Exception: always-dark "screens" (`.screen` radars, screenshots, lightbox) may use white text.
+- Accent = acid lime `--accent` (fill, text on it = `text-on-accent`); `text-accent` / `ring-accent` / `border-accent` map to the readable `--accent-ink` variant automatically (dark olive on paper, lime on black). Second colour `accent-2` = aqua.
+- Preference lives in the store (`theme: light|dark|system`, default system); `src/lib/theme.ts` (`useApplyTheme`, `switchTheme`), toggle in `layout/ThemeToggle.tsx`, full choice in the header menu and Settings. `index.html` sets `data-theme` before first paint.
+- Shell: `layout/Header.tsx` — floating glass header (logo, pill nav with sliding active state, session timer, search, theme, "More" menu with secondary pages/language/theme) and `MobileDock` (floating bottom dock on < lg). Drawers/modals render in a portal on `<body>`.
+- Type: Unbounded (`font-hero`, page titles / big numbers), Inter Tight (`font-display`, UI headings), Inter (body), JetBrains Mono (labels, numbers). Headings are sentence case, not uppercase.
+- Shapes: rounded (`.chamfer` now means border-radius 20 / `-sm` 12 / `-lg` 28), pill buttons/segmented controls with inverted ink active state, `.frame` = 1px border, `.frame-hot` / hovered interactive cards = lime→aqua gradient border, `.glass`, `.tag-label` (mono caps), `.backdrop` (lime/aqua mesh) + `.dots`, `.grain`. Respect `prefers-reduced-motion`.
 
 ## Lineup data (Nov 2026)
 - `src/data/grenades.ts` — older lineups (BLAST.tv / Dexerto, late 2023) → `partial` with a shared note (`OLD_BLAST`, `OLD_CI`), plus `GRENADES = [...CORE, ...FRESH]`.

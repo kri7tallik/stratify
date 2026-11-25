@@ -71,7 +71,7 @@ export function ProgressPage() {
               const tot = g.length + t.length;
               return (
                 <button key={m.id} onClick={() => nav(`/maps/${m.id}`)} className="chamfer chamfer-sm flex w-full items-center gap-4 px-2 py-1.5 text-left transition hover:bg-bg-hover">
-                  <span className="w-20 font-display text-[12px] font-semibold uppercase tracking-wider">{m.name}</span>
+                  <span className="w-20 font-display text-[13px] font-semibold">{m.name}</span>
                   <ProgressBar value={tot ? (gd + td) / tot : 0} className="flex-1" />
                   <span className="w-40 text-right font-mono text-[11px] tabular-nums text-ink-faint">{tr("prog.byMapRow", { a: gd, b: g.length, c: td, d: t.length })}</span>
                 </button>

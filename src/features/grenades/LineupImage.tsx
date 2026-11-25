@@ -49,14 +49,14 @@ export function LineupImage({ img, className, caption = true, step, onOpen }: { 
         </div>
       )}
       {onOpen && state !== "error" && (
-        <span className="pointer-events-none absolute right-2.5 top-2.5 grid h-8 w-8 place-items-center bg-black/60 text-white opacity-0 ring-1 ring-inset ring-white/20 backdrop-blur transition group-hover/img:opacity-100 group-focus-visible/img:opacity-100">
+        <span className="pointer-events-none absolute right-2.5 top-2.5 grid h-8 w-8 place-items-center rounded-full bg-black/60 text-white opacity-0 ring-1 ring-inset ring-white/20 backdrop-blur transition group-hover/img:opacity-100 group-focus-visible/img:opacity-100">
           <Maximize2 size={15} />
         </span>
       )}
       {caption && (
         <span className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/90 to-transparent px-3 pb-2 pt-8">
           <span className="flex items-center gap-2 font-display text-[12px] font-semibold uppercase tracking-wider text-white">
-            {step !== undefined ? <span className="grid h-5 w-5 place-items-center bg-accent text-[11px] text-black">{step}</span> : <span className="h-2 w-2 bg-accent" />}
+            {step !== undefined ? <span className="grid h-5 w-5 place-items-center rounded-full bg-accent text-[11px] text-on-accent">{step}</span> : <span className="h-2 w-2 rounded-full bg-accent" />}
             {label}
           </span>
           <span className="text-[10px] text-white/55">{img.credit}</span>

@@ -7,9 +7,9 @@ import { useAppStore } from "@/store/useAppStore";
 
 export function EmptyState({ icon, title, text, action, className }: { icon?: ReactNode; title: string; text?: ReactNode; action?: ReactNode; className?: string }) {
   return (
-    <div className={cn("chamfer relative flex flex-col items-center justify-center bg-white/[0.015] px-6 py-12 text-center ring-1 ring-inset ring-line", className)}>
-      <div className="mb-3 grid h-12 w-12 place-items-center text-ink-faint">{icon ?? <Crosshair size={26} strokeWidth={1.5} />}</div>
-      <p className="font-display text-sm font-semibold uppercase tracking-wider text-ink">{title}</p>
+    <div className={cn("chamfer relative flex flex-col items-center justify-center bg-bg-raised/60 px-6 py-14 text-center ring-1 ring-inset ring-line", className)}>
+      <div className="mb-4 grid h-12 w-12 place-items-center rounded-full bg-accent text-on-accent">{icon ?? <Crosshair size={26} strokeWidth={1.5} />}</div>
+      <p className="font-display text-base font-semibold tracking-tight text-ink">{title}</p>
       {text && <p className="mt-1.5 max-w-md text-[13px] leading-relaxed text-ink-faint">{text}</p>}
       {action && <div className="mt-5">{action}</div>}
     </div>
@@ -17,7 +17,7 @@ export function EmptyState({ icon, title, text, action, className }: { icon?: Re
 }
 
 export function Skeleton({ className }: { className?: string }) {
-  return <div className={cn("chamfer animate-pulse bg-white/[0.04]", className)} />;
+  return <div className={cn("chamfer animate-pulse bg-ink/[0.06]", className)} />;
 }
 
 export function ErrorNotice({ title, message, onRetry }: { title?: string; message: string; onRetry?(): void }) {

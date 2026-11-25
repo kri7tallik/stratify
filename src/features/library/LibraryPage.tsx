@@ -110,9 +110,9 @@ export function LibraryPage() {
 
       <div className="mb-5 grid grid-cols-2 gap-3 md:grid-cols-4">
         {(["grenade", "tactic", "playbook", "source"] as AddKind[]).map((k) => (
-          <button key={k} onClick={() => openAdd(k)} className="chamfer group flex items-center gap-3 bg-black/20 p-4 text-left ring-1 ring-inset ring-line transition hover:bg-accent/[0.06] hover:ring-accent/50">
+          <button key={k} onClick={() => openAdd(k)} className="chamfer group flex items-center gap-3 bg-sunken p-4 text-left ring-1 ring-inset ring-line transition hover:bg-accent/[0.06] hover:ring-accent/50">
             <div className="chamfer chamfer-sm grid h-9 w-9 place-items-center bg-bg-panel text-ink-faint transition group-hover:rotate-90 group-hover:text-accent"><Plus size={16} /></div>
-            <span className="font-display text-[12px] font-semibold uppercase tracking-wider">{addTitle(k)}</span>
+            <span className="font-display text-[14px] font-semibold tracking-tight">{addTitle(k)}</span>
           </button>
         ))}
       </div>

@@ -17,7 +17,7 @@ export function SourceBlock({ meta }: { meta: SourceMeta }) {
   const url = meta.url || src?.url;
   const author = meta.author || src?.author;
   return (
-    <div className="chamfer bg-black/30 p-4 ring-1 ring-inset ring-line">
+    <div className="chamfer bg-sunken/70 p-4 ring-1 ring-inset ring-line">
       <div className="flex items-center justify-between gap-2">
         <span className="tag-label">{t("c.source")}</span>
         <StatusBadge status={meta.status} />
@@ -28,7 +28,7 @@ export function SourceBlock({ meta }: { meta: SourceMeta }) {
       </div>
       {meta.note && <p className="mt-2 text-[13px] leading-relaxed text-ink-muted">{meta.note}</p>}
       {url && (
-        <button onClick={() => openExternal(url)} className="mt-3 inline-flex items-center gap-1.5 font-display text-[11px] font-semibold uppercase tracking-wider text-accent hover:text-accent-amber">
+        <button onClick={() => openExternal(url)} className="mt-3 inline-flex h-8 items-center gap-1.5 rounded-full bg-ink px-3.5 text-[12px] font-medium text-bg transition hover:opacity-85">
           {t("c.openSource")} <ExternalLink size={12} />
         </button>
       )}

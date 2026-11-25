@@ -5,8 +5,8 @@ import { useLabels } from "@/lib/labels";
 
 type Tone = "neutral" | "accent" | "ok" | "warn" | "bad" | "t" | "ct";
 const tones: Record<Tone, string> = {
-  neutral: "bg-white/[0.04] text-ink-muted ring-line-strong",
-  accent: "bg-accent/10 text-accent-soft ring-accent/40",
+  neutral: "bg-ink/[0.04] text-ink-muted ring-line",
+  accent: "bg-accent/20 text-accent ring-accent/30",
   ok: "bg-ok/10 text-ok ring-ok/30",
   warn: "bg-warn/10 text-warn ring-warn/30",
   bad: "bg-bad/10 text-bad ring-bad/30",
@@ -16,7 +16,7 @@ const tones: Record<Tone, string> = {
 
 export function Badge({ children, className, tone = "neutral" }: { children: React.ReactNode; className?: string; tone?: Tone }) {
   return (
-    <span className={cn("chamfer chamfer-sm inline-flex h-[22px] items-center gap-1 px-2 font-display text-[10px] font-semibold uppercase leading-none tracking-wider ring-1 ring-inset", tones[tone], className)}>
+    <span className={cn("inline-flex h-[22px] items-center gap-1 rounded-full px-2.5 font-mono text-[10px] font-medium uppercase leading-none tracking-wide ring-1 ring-inset", tones[tone], className)}>
       {children}
     </span>
   );
@@ -50,7 +50,7 @@ export function DifficultyBadge({ d }: { d: Difficulty }) {
     <Badge>
       <span className="flex items-end gap-[2px]">
         {[1, 2, 3].map((i) => (
-          <span key={i} className={cn("w-[3px]", i <= bars ? "bg-accent" : "bg-white/15")} style={{ height: 4 + i * 2 }} />
+          <span key={i} className={cn("w-[3px] rounded-full", i <= bars ? "bg-ink" : "bg-ink/15")} style={{ height: 4 + i * 2 }} />
         ))}
       </span>
       {L.diff[d]}

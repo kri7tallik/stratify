@@ -65,7 +65,7 @@ export function TacticDetailPage() {
               <SideBadge side={t.side} />
               <DifficultyBadge d={t.difficulty} />
             </div>
-            <h1 className="mt-2 font-display text-[30px] font-bold uppercase leading-tight tracking-wide">{t.title}</h1>
+            <h1 className="mt-3 font-hero text-[34px] font-semibold leading-[1.05] tracking-[-0.03em] sm:text-[44px]">{t.title}</h1>
             <p className="mt-1 max-w-3xl text-sm text-ink-muted">{t.summary}</p>
           </div>
         </div>
@@ -97,7 +97,7 @@ export function TacticDetailPage() {
                 <div className="flex flex-1 gap-1">
                   {t.steps.map((_, i) => (
                     <button key={i} onClick={() => setStep(i)} className="group h-6 flex-1 py-2.5" aria-label={tr("tactic.step", { n: i + 1 })}>
-                      <div className={cn("h-1 transition-all", i < step ? "bg-accent/60" : i === step ? "bg-accent shadow-[0_0_10px_#ff6b1a]" : "bg-white/10 group-hover:bg-white/20")} />
+                      <div className={cn("h-1 rounded-full transition-all", i < step ? "bg-accent/60" : i === step ? "bg-accent shadow-[0_0_10px_rgb(var(--accent))]" : "bg-ink/10 group-hover:bg-ink/20")} />
                     </button>
                   ))}
                 </div>
@@ -113,7 +113,7 @@ export function TacticDetailPage() {
                   {stepNades.length > 0 && (
                     <div className="mt-2 flex flex-wrap gap-1.5">
                       {stepNades.map((g) => (
-                        <button key={g.id} onClick={() => setNade(g.id)} className="chamfer chamfer-sm flex items-center gap-1.5 bg-black/30 px-2 py-1 text-[12px] ring-1 ring-inset ring-line hover:ring-accent/50"><NadeDot type={g.type} size={6} />{g.title}</button>
+                        <button key={g.id} onClick={() => setNade(g.id)} className="chamfer chamfer-sm flex items-center gap-1.5 bg-sunken px-2 py-1 text-[12px] ring-1 ring-inset ring-line hover:ring-accent/50"><NadeDot type={g.type} size={6} />{g.title}</button>
                       ))}
                     </div>
                   )}
@@ -128,7 +128,7 @@ export function TacticDetailPage() {
             <div className="tag-label mb-3">{tr("tactic.roles")}</div>
             <div className="space-y-2">
               {t.roles.map((r) => (
-                <div key={r.slot} className="chamfer chamfer-sm flex items-start gap-3 bg-black/25 p-3 ring-1 ring-inset ring-line">
+                <div key={r.slot} className="chamfer chamfer-sm flex items-start gap-3 bg-sunken p-3 ring-1 ring-inset ring-line">
                   <span className={cn("chamfer chamfer-sm grid h-7 w-7 shrink-0 place-items-center font-display text-[13px] font-bold", t.side === "T" ? "bg-tside/15 text-tside" : "bg-ctside/15 text-ctside")}>{r.slot}</span>
                   <div className="min-w-0">
                     <div className="text-[13px] font-semibold">{r.role}</div>
@@ -145,7 +145,7 @@ export function TacticDetailPage() {
               {t.steps.map((s, i) => (
                 <li key={i}>
                   <button onClick={() => setStep(i)} className={cn("chamfer chamfer-sm flex w-full gap-3 px-2 py-2 text-left transition", i === step ? "bg-accent/[0.1] ring-1 ring-inset ring-accent/30" : "hover:bg-bg-hover")}>
-                    <span className={cn("mt-0.5 grid h-5 w-5 shrink-0 place-items-center font-display text-[11px] font-bold", i === step ? "bg-accent text-black" : "bg-white/[0.06] text-ink-muted")}>{i + 1}</span>
+                    <span className={cn("mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full font-display text-[11px] font-bold", i === step ? "bg-accent text-on-accent" : "bg-ink/[0.06] text-ink-muted")}>{i + 1}</span>
                     <span><span className="text-[13px] font-medium">{s.label}</span><span className="block text-[12px] text-ink-faint">{s.detail}</span></span>
                   </button>
                 </li>
