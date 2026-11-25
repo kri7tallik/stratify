@@ -5,7 +5,9 @@
 
 ## Сайт
 
-Веб-версия: **https://kri7tallik.github.io/stratify/** — обновляется сама после каждого пуша в `main` (workflow `Deploy site`).
+Веб-версия: **https://kri7tallik.github.io/stratify/** — обновляется сама после каждого пуша в `main`.
+
+Установщик для Windows: **https://github.com/kri7tallik/stratify/releases/latest/download/STRATIFY-setup.exe** — пересобирается после каждого пуша в `main`.
 
 ## Запуск
 
