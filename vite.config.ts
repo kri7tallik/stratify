@@ -4,6 +4,8 @@ import path from "node:path";
 
 // Tauri expects a fixed port and no screen clearing.
 export default defineConfig({
+  // GitHub Pages serves the site from /stratify/; Tauri and local dev use /
+  base: process.env.GITHUB_PAGES ? "/stratify/" : "/",
   plugins: [react()],
   clearScreen: false,
   resolve: { alias: { "@": path.resolve(__dirname, "src") } },

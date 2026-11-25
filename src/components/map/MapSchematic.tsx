@@ -34,7 +34,7 @@ export const NADE_COLOR: Record<GrenadeType, string> = {
   he: "#3fcf8e",
 };
 
-export const radarUrl = (id: string) => `/radars/${id}.webp`;
+export const radarUrl = (id: string) => `${import.meta.env.BASE_URL}radars/${id}.webp`;
 
 /** Official CS2 radar overview with callout markers and grenade trajectories on top. */
 export function MapSchematic({

@@ -3,6 +3,10 @@
 Десктоп-приложение для Windows (Tauri 2 + React + TypeScript + Tailwind + Framer Motion + Supabase).
 Помогает готовиться к матчам FACEIT/Premier: карты, гранаты, тактики, тренировки и личный прогресс. Каждый материал привязан к источнику.
 
+## Сайт
+
+Веб-версия: **https://kri7tallik.github.io/stratify/** — обновляется сама после каждого пуша в `main` (workflow `Deploy site`).
+
 ## Запуск
 
 Нужно на Windows:
